@@ -1,13 +1,11 @@
 <h1 class="center">ambientz</h1>
 <table>
-  <% scale.notes.each_with_index do |note, index| %>
-    <% if chord1.intervals.include?(index % 7) && note.instrument.name == "piano" %>
-      <td><%= audio_tag note.upload.url %></td>
-    <% end %>
+  <% piano_notes.each do |note| %>
+    <td><%= audio_tag note.upload.url %></td>
+  <% end %>
 
-    <% if chord2.intervals.include?(index % 7) && note.instrument.name == "harp" %>
-      <td><%= audio_tag note.upload.url %></td>
-    <% end %>
+  <% harp_notes.each do |note| %>
+    <td><%= audio_tag note.upload.url %></td>
   <% end %>
 </table>
 

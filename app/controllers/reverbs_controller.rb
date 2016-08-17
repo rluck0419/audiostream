@@ -1,0 +1,2 @@
+class ReverbsController < ApplicationController
+end

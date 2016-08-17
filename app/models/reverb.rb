@@ -1,0 +1,2 @@
+class Reverb < ApplicationRecord
+end

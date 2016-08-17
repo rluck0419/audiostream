@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :chords
   resources :reverbs
   resources :users
   resources :instruments

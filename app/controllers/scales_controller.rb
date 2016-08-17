@@ -4,7 +4,8 @@ class ScalesController < ApplicationController
   end
 
   def show
-
-    render locals: { scale: Scale.find(params[:id]) }
+    scale = Scale.find(params[:id])
+    chord = Chord.first
+    render locals: { scale: scale, chord: chord }
   end
 end

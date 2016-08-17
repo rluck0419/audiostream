@@ -1,7 +1,9 @@
 <h1 class="center">ambientz</h1>
 <table>
-  <% scale.notes.each do |note| %>
-    <td><%= audio_tag note.upload.url %></td>
+  <% scale.notes.each_with_index do |note, index| %>
+    <% if chord.intervals.include?(index) %>
+      <td><%= audio_tag note.upload.url %></td>
+    <% end %>
   <% end %>
 </table>
 

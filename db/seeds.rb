@@ -32,6 +32,7 @@ TRIAD_2 = [0,3,5]
 
 Chord.create!(name: 'triad', intervals: [TRIAD_0[0], TRIAD_0[1], TRIAD_0[2]])
 Chord.create!(name: 'triad_6', intervals: [TRIAD_1[0], TRIAD_1[1], TRIAD_1[2]])
+Chord.create!(name: 'triad_64', intervals: [TRIAD_2[0], TRIAD_2[1], TRIAD_2[2]])
 
 Scale.all.each do |scale|
   12.times do |i|
@@ -41,3 +42,6 @@ Scale.all.each do |scale|
     end
   end
 end
+
+
+# .map(&:succ) - returns new array with all elements incremented by one

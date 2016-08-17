@@ -1,0 +1,8 @@
+<h1 class="center">ambientz</h1>
+<table>
+  <% notes.each do |note| %>
+    <td><%= audio_tag note.upload.url %></td>
+  <% end %>
+</table>
+
+<input id="pauseButton" type="button" value="Pause" />

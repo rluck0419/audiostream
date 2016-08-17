@@ -1,0 +1,19 @@
+<div><h3><%= form_title %></h3></div>
+
+<div>
+  <%= form_for(note) do |f| %>
+    <div class="field">
+      <label for="name">Name: </label>
+      <%= f.text_area :name, placeholder: "piano-c3", class: 'form-field' %>
+    </div>
+
+    <div>
+      <label for="upload">Upload: </label>
+      <%= f.file_field :upload %>
+    </div>
+
+    <div class="waves-effect waves-light btn">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</div>

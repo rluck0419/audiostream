@@ -55,11 +55,11 @@ $(document).ready(function() {
                 offset += 300
             }
 
-            soundObjs[i].delay = delayTimes[i] * 10;
+            soundObjs[i].delay = 1000 * i + offset;
             var delay = soundObjs[i].delay;
             console.log(soundObjs[i].delay);
 
-            startLoop(soundObjs[i].sound, soundObjs[i].delay);
+            startLoop(soundObjs[i].sound, delay);
         };
     };
 

@@ -14,18 +14,20 @@ Instrument.create!(name: "piano")
   Note.create!(name: notes[i],  upload: File.open("#{Rails.root}/public/notes/#{notes[i]}.mp3"), upload_content_type: "audio/mp3", instrument: Instrument.first)
 end
 
-Scale.create(name: "major")
-Scale.create(name: "penta")
+Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
+
+Scale.create!(name: "major")
+Scale.create!(name: "penta")
 
 major = [0,2,4,5,7,9,11]
 penta = [0,2,5,7,9]
 
 12.times do |i|
   if major.include?(i)
-    ScaleNote.create(scale: Scale.first, note: Note.where(id: (i+1)).take!)
+    ScaleNote.create!(scale: Scale.first, note: Note.where(id: (i+1)).take!)
   end
 
   if penta.include?(i)
-    ScaleNote.create(scale: Scale.second, note: Note.where(id: (i+1)).take!)
+    ScaleNote.create!(scale: Scale.second, note: Note.where(id: (i+1)).take!)
   end
 end

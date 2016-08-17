@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816175433) do
+ActiveRecord::Schema.define(version: 20160817152641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20160816175433) do
     t.datetime "upload_updated_at"
     t.integer  "instrument_id"
     t.index ["instrument_id"], name: "index_notes_on_instrument_id", using: :btree
+  end
+
+  create_table "reverbs", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "upload_file_name"
+    t.string   "upload_content_type"
+    t.integer  "upload_file_size"
+    t.datetime "upload_updated_at"
   end
 
   create_table "scale_notes", force: :cascade do |t|

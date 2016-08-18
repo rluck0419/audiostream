@@ -1,6 +1,9 @@
 <nav>
   <div class="nav-wrapper">
-    <%= link_to "SoundHouse", root_path, class: "brand-logo left" %>
+    <%= link_to "SoundHouse", root_path, class: "brand-logo left hide-on-small-only" %>
+    <%= link_to root_path, class: "brand-logo left hide-on-med-and-up" do %>
+      <i class="material-icons">speaker</i>
+    <% end %>
     <ul id="nav-mobile" class="right">
       <% if user_logged_in? %>
         <li><%= link_to "Profile", user_path(current_user) %></li>

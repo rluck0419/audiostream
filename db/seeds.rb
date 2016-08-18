@@ -12,6 +12,14 @@ piano = Instrument.create!(name: "piano")
 harp = Instrument.create!(name: "harp")
 
 12.times do |i|
+  if i < 6
+    Key.create!(name: NOTES[i], transposition: i)
+  else
+    Key.create!(name: NOTES[i], transposition: i - 12)
+  end
+end
+
+12.times do |i|
   Note.create!(name: NOTES[i], octave: 2, upload: File.open("#{Rails.root}/public/notes/piano/#{NOTES[i]}2.mp3"), upload_content_type: "audio/mp3", instrument: piano)
 end
 

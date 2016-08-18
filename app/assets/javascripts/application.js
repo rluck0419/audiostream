@@ -32,14 +32,14 @@ $(document).ready(function() {
     });
 
     function startLoop(sound, seconds) {
-        setInterval(() => sound.play(), seconds);
+        setInterval(sound.play(), seconds);
     }
 
 
     function initialize() {
         var sounds = document.getElementsByTagName("audio");
         var soundObjs = [];
-        var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
+        // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
         for (var i = 0; i < sounds.length; i++) {
             soundObjs[i] = new Object();
 
@@ -55,11 +55,11 @@ $(document).ready(function() {
 
             soundObjs[i].delay = 1000 * i + offset;
             var delay = soundObjs[i].delay;
-            console.log(soundObjs[i].delay);
+            // console.log(soundObjs[i].delay);
 
             startLoop(soundObjs[i].sound, delay);
-        };
-    };
+        }
+    }
 
     $(document).ready(function() {
         initialize();

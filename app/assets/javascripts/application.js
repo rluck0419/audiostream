@@ -15,8 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-let audioContext = new AudioContext();
-
 $(document).ready(function() {
     var paused = false;
 

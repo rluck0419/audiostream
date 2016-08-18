@@ -42,14 +42,13 @@ Chord.create!(name: 'triad', intervals: [TRIAD_0[0], TRIAD_0[1], TRIAD_0[2]])
 Chord.create!(name: 'triad_6', intervals: [TRIAD_1[0], TRIAD_1[1], TRIAD_1[2]])
 Chord.create!(name: 'triad_64', intervals: [TRIAD_2[0], TRIAD_2[1], TRIAD_2[2]])
 
-Scale.all.each do |scale|
-  12.times do |i|
-    if scale.degrees.include?(i)
-      ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: piano))
-      ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: harp))
+Key.all.each do |key|
+  Scale.all.each do |scale|
+    12.times do |i|
+      if scale.degrees.map{ |n| n + key.transposition % 12 }.include?(i)
+        ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: piano), key: key)
+        ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: harp), key: key)
+      end
     end
   end
 end
-
-
-# .map(&:succ) - returns new array with all elements incremented by one

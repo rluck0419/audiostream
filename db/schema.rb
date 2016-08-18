@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818191355) do
+ActiveRecord::Schema.define(version: 20160818195815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 20160818191355) do
     t.integer  "scale_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "key_id"
+    t.index ["key_id"], name: "index_scale_notes_on_key_id", using: :btree
     t.index ["note_id"], name: "index_scale_notes_on_note_id", using: :btree
     t.index ["scale_id"], name: "index_scale_notes_on_scale_id", using: :btree
   end
@@ -118,6 +120,7 @@ ActiveRecord::Schema.define(version: 20160818191355) do
   end
 
   add_foreign_key "notes", "instruments"
+  add_foreign_key "scale_notes", "keys"
   add_foreign_key "scale_notes", "notes"
   add_foreign_key "scale_notes", "scales"
   add_foreign_key "user_chords", "chords"

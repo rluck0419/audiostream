@@ -55,3 +55,5 @@ gem "paperclip", "~> 5.0.0"
 gem 'pry-rails'
 # Amazon S3 gem for file uploads/streaming
 gem 'aws-sdk', '>= 2.0.34'
+# materialize gem for styling
+gem 'materialize-sass'

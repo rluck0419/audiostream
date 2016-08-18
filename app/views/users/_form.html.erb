@@ -1,0 +1,33 @@
+<h2 class="center"><%= form_title %></h2>
+
+<div>
+  <% if user.errors.any? %>
+    <% user.errors.full_messages.each do |msg| %>
+      <p> <%= msg %></p>
+    <% end %>
+  <% end %>
+</div>
+
+<div>
+
+  <%= form_for(user) do |f| %>
+    <div class="center">
+      <label for="email">Email</label>
+      <%= f.text_field :email, placeholder: "bob@bmail.com", class: 'form-field' %>
+    </div>
+
+    <div class="center">
+      <label for="password">Password</label>
+      <%= f.password_field :password, class: 'form-field' %>
+    </div>
+
+    <div class="center">
+      <label for="password_confirmation">Confirm Password</label>
+      <%= f.password_field :password_confirmation, class: 'form-field' %>
+    </div>
+
+    <div class="center">
+      <%= f.submit class: "btn" %>
+    </div>
+  <% end %>
+</div>

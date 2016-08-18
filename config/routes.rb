@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'sessions/sign_in'
+  delete 'sessions/sign_out'
+  post 'sessions/authenticate'
+
   resources :chords
   resources :reverbs
   resources :users

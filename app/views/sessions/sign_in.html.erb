@@ -1,0 +1,14 @@
+<h2 class="center">Sign in</h2>
+
+<p class="field_with_errors center"><%= flash[:alert] %></p>
+<%= form_tag '/sessions/authenticate', method: "POST" do %>
+  <div class="center"><%= label_tag :email %></div>
+  <div class="center"><%= email_field_tag :email %></div>
+
+  <div class="center"><%= label_tag :password %></div>
+  <div class="center"><%= password_field_tag :password %></div>
+
+  <div class='actions center'>
+    <%= submit_tag "Submit", class: "btn" %>
+  </div>
+<% end %>

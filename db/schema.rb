@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817191605) do
+ActiveRecord::Schema.define(version: 20160818155625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,42 @@ ActiveRecord::Schema.define(version: 20160817191605) do
     t.integer  "degrees",    limit: 2, default: [],              array: true
   end
 
+  create_table "user_chords", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "chord_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chord_id"], name: "index_user_chords_on_chord_id", using: :btree
+    t.index ["user_id"], name: "index_user_chords_on_user_id", using: :btree
+  end
+
+  create_table "user_instruments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "instrument_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["instrument_id"], name: "index_user_instruments_on_instrument_id", using: :btree
+    t.index ["user_id"], name: "index_user_instruments_on_user_id", using: :btree
+  end
+
+  create_table "user_reverbs", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "reverb_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reverb_id"], name: "index_user_reverbs_on_reverb_id", using: :btree
+    t.index ["user_id"], name: "index_user_reverbs_on_user_id", using: :btree
+  end
+
+  create_table "user_scales", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "scale_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scale_id"], name: "index_user_scales_on_scale_id", using: :btree
+    t.index ["user_id"], name: "index_user_scales_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.text     "email"
     t.text     "password_digest"
@@ -77,4 +113,12 @@ ActiveRecord::Schema.define(version: 20160817191605) do
   add_foreign_key "notes", "instruments"
   add_foreign_key "scale_notes", "notes"
   add_foreign_key "scale_notes", "scales"
+  add_foreign_key "user_chords", "chords"
+  add_foreign_key "user_chords", "users"
+  add_foreign_key "user_instruments", "instruments"
+  add_foreign_key "user_instruments", "users"
+  add_foreign_key "user_reverbs", "reverbs"
+  add_foreign_key "user_reverbs", "users"
+  add_foreign_key "user_scales", "scales"
+  add_foreign_key "user_scales", "users"
 end

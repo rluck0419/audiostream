@@ -7,10 +7,11 @@ class ScalesController < ApplicationController
     scale = Scale.find(params[:id])
     chord1 = Chord.first
     chord2 = Chord.second
+    key = Key.first
     piano_notes = []
     harp_notes = []
 
-    scale.notes.each_with_index do |note, index|
+    scale.key_notes(key).each_with_index do |note, index|
       if chord1.intervals.include?(index % scale.degrees.length) && note.instrument.name == "piano"
         piano_notes << note
       end

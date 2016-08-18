@@ -32,7 +32,7 @@ $(document).ready(function() {
     });
 
     function startLoop(sound, seconds) {
-        setInterval(sound.play(), seconds);
+        setInterval(() => sound.play(), seconds);
     }
 
 

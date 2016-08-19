@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
   def current_user
     User.find_by(id: session[:user_id])
@@ -18,6 +19,14 @@ class ApplicationController < ActionController::Base
 
   def sign_in_new_user(user)
     session[:user_id] = user.id
+  end
+
+  def notes_in_key_and_scale(key, scale)
+    key = NOTES.index(key)
+
+    scale = scale.degrees.map{ |deg| (deg + key) % 12 }
+    notes = scale.map{ |note| NOTES[note] }
+    notes
   end
 
   helper_method :current_user, :user_logged_in?

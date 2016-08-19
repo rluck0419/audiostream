@@ -38,19 +38,22 @@ $(document).ready(function() {
 
     function initialize() {
         var sounds = document.getElementsByTagName("audio");
+        var reverb = sounds[-1];
         var soundObjs = [];
+        let audioContext = new AudioContext();
+
         // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
-        for (var i = 0; i < sounds.length; i++) {
+        for (var i = 0; i < sounds.length - 1; i++) {
             soundObjs[i] = new Object();
 
             soundObjs[i].sound = sounds[i];
 
             var offset = 1000;
             if (i % 2 != 0) {
-                if (i < 5) {
+                if (i > 5) {
                   offset += 200
                 }
-                offset += 300
+                offset += 1300
             }
 
             soundObjs[i].delay = 1000 * i + offset;

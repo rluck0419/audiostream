@@ -1,15 +1,5 @@
-<% if piano_notes.empty? && harp_notes.empty? %>
-  <% notes.each do |note| %>
-    <%= audio_tag note.upload.url %>
-  <% end %>
-<% else %>
-  <% piano_notes.each do |note| %>
-    <%= audio_tag note.upload.url %>
-  <% end %>
-
-  <% harp_notes.each do |note| %>
-    <%= audio_tag note.upload.url %>
-  <% end %>
+<% notes.each do |note| %>
+  <%= audio_tag note.upload.url %>
 <% end %>
 
 <div class="center"><input id="pauseButton" type="button" value="Pause" class="btn"/></div>

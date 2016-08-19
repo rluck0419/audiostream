@@ -19,9 +19,12 @@ class NotesController < ApplicationController
         end
       end
     end
-    notes = Note.all
-
-    render locals: { notes: notes, piano_notes: piano_notes, harp_notes: harp_notes, reverb: reverb }
+    if piano_notes.empty? && harp_notes.empty?
+      notes = all_notes
+    else
+      notes = piano_notes + harp_notes
+    end
+    render locals: { notes: notes, reverb: reverb }
   end
 
   def new

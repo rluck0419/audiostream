@@ -58,3 +58,5 @@ gem 'pry-rails'
 gem 'aws-sdk', '>= 2.0.34'
 # materialize gem for styling
 gem 'materialize-sass'
+
+gem 'rails-erd'

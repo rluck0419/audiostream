@@ -11,10 +11,12 @@ class ScalesController < ApplicationController
     reverb = Reverb.first
     piano_notes = []
     harp_notes = []
-
+    all_notes = Note.all
     notes = notes_in_key_and_scale(key.name, scale)
+    
+    all_notes.group_by(&:instrument)
 
-    scale.key_notes(key).each_with_index do |note, index|
+    all_notes.each_with_index do |note, index|
       if notes.include?(note.name) && note.instrument.name == "piano"
         piano_notes << note
       end
@@ -22,7 +24,6 @@ class ScalesController < ApplicationController
         harp_notes << note
       end
     end
-    binding.pry
     render locals: { piano_notes: piano_notes, harp_notes: harp_notes, reverb: reverb }
   end
 end

@@ -6,7 +6,7 @@ class ScalesController < ApplicationController
   def show
     scale = Scale.find(params[:id])
     chord1 = Chord.first
-    chord2 = Chord.second
+    chord2 = Chord.third
     key = Key.first
     piano_notes = []
     harp_notes = []

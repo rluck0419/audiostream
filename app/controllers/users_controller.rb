@@ -34,6 +34,31 @@ class UsersController < ApplicationController
   def update
     if User.find(params[:id])
       user = User.find(params[:id])
+
+      if params[:instrument].values.empty?
+        user.instruments.destroy_all
+      else
+        user.instruments = params[:instrument].values.map{ |id| Instrument.find(id) }
+      end
+
+      if params[:chord].values.empty?
+        user.chords.destroy_all
+      else
+        user.chords = params[:chord].values.map{ |id| Chord.find(id) }
+      end
+
+      if params[:scale].values.empty?
+        user.scales.destroy_all
+      else
+        user.scales = params[:scale].values.map{ |id| Scale.find(id) }
+      end
+
+      if params[:reverb].values.empty?
+        user.reverbs.destroy_all
+      else
+        user.reverbs = params[:reverb].values.map{ |id| Reverb.find(id) }
+      end
+
       if user.update(user_params)
         redirect_to user
       else

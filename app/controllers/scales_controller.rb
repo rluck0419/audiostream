@@ -7,7 +7,7 @@ class ScalesController < ApplicationController
     scale = Scale.find(params[:id])
     # chord1 = Chord.first
     # chord2 = Chord.third
-    key = Key.first
+    key = Key.all.sample
     reverb = Reverb.first
     piano_notes = []
     harp_notes = []

@@ -61,24 +61,25 @@ $(document).ready(function() {
 
             startLoop(soundObjs[i].sound, delay);
         }
+
+        document.getElementById('pauseButton').onclick = function() {
+            var sounds = document.getElementsByTagName('audio');
+            if (paused == false) {
+                for (i = 0; i < sounds.length; i++) {
+                  sounds[i].pause();
+                  paused = true;
+                }
+            } else {
+                for (i = 0; i < sounds.length; i++) {
+                  sounds[i].play();
+                  paused = false;
+                }
+            }
+        };
     }
 
     $(document).ready(function() {
         initialize();
+        $('select').material_select();
     });
-
-    document.getElementById('pauseButton').onclick = function() {
-        var sounds = document.getElementsByTagName('audio');
-        if (paused == false) {
-            for (i = 0; i < sounds.length; i++) {
-              sounds[i].pause();
-              paused = true;
-            }
-        } else {
-            for (i = 0; i < sounds.length; i++) {
-              sounds[i].play();
-              paused = false;
-            }
-        }
-    };
 });

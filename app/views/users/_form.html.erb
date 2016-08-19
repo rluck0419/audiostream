@@ -26,6 +26,38 @@
       <%= f.password_field :password_confirmation, class: 'form-field' %>
     </div>
 
+    <div class="center">Favorite Instrument(s)</div>
+    <% Instrument.all.each do |i| %>
+      <div class="center">
+        <%= check_box_tag("instrument[#{i.name}]", i.id, user.instruments.include?(i)) %>
+        <%= label_tag("instrument[#{i.name}]", i.name) %>
+      </div>
+    <% end %>
+
+    <div class="center">Favorite Chord(s)</div>
+    <% Chord.all.each do |c| %>
+      <div class="center">
+        <%= check_box_tag("chord[#{c.name}]", c.id, user.chords.include?(c)) %>
+        <%= label_tag("chord[#{c.name}]", c.name) %>
+      </div>
+    <% end %>
+
+    <div class="center">Favorite Scale(s)</div>
+    <% Scale.all.each do |s| %>
+      <div class="center">
+        <%= check_box_tag("scale[#{s.name}]", s.id, user.scales.include?(s)) %>
+        <%= label_tag("scale[#{s.name}]", s.name) %>
+      </div>
+    <% end %>
+
+    <div class="center">Favorite Reverb(s)</div>
+    <% Reverb.all.each do |r| %>
+      <div class="center">
+        <%= check_box_tag("reverb[#{r.name}]", r.id, user.reverbs.include?(r)) %>
+        <%= label_tag("reverb[#{r.name}]", r.name) %>
+      </div>
+    <% end %>
+
     <div class="center">
       <%= f.submit class: "btn" %>
     </div>

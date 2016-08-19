@@ -1,0 +1,27 @@
+<div class="prefs white">
+  <p>
+    Favorite Instrument(s):
+    <% user.instruments.each do |i| %>
+      <%= i.name.capitalize %>
+    <% end %>
+  </p>
+  <p>
+    Favorite Chord(s):
+    <% user.chords.each do |c| %>
+      <%= c.name %>
+      <%= c.intervals.map(&:succ) %>
+    <% end %>
+  </p>
+  <p>
+    Favorite Scale(s):
+    <% user.scales.each do |s| %>
+      <%= s.name.capitalize %>
+    <% end %>
+  </p>
+  <p>
+    Favorite Reverb(s):
+    <% user.reverbs.each do |r| %>
+      <%= r.name %>
+    <% end %>
+  </p>
+</div>

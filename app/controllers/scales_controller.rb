@@ -13,8 +13,6 @@ class ScalesController < ApplicationController
     harp_notes = []
     all_notes = Note.all
     notes = notes_in_key_and_scale(key.name, scale)
-    
-    all_notes.group_by(&:instrument)
 
     all_notes.each_with_index do |note, index|
       if notes.include?(note.name) && note.instrument.name == "piano"

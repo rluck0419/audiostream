@@ -1,7 +1,15 @@
-<table>
+<% if piano_notes.empty? && harp_notes.empty? %>
   <% notes.each do |note| %>
-    <td><%= audio_tag note.upload.url %></td>
+    <%= audio_tag note.upload.url %>
   <% end %>
-</table>
+<% else %>
+  <% piano_notes.each do |note| %>
+    <%= audio_tag note.upload.url %>
+  <% end %>
+
+  <% harp_notes.each do |note| %>
+    <%= audio_tag note.upload.url %>
+  <% end %>
+<% end %>
 
 <div class="center"><input id="pauseButton" type="button" value="Pause" class="btn"/></div>

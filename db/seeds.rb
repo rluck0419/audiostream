@@ -32,9 +32,9 @@ end
 end
 
 
-Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
+reverb = Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
 
-Scale.create!(name: "major", degrees: [0,2,4,5,7,9,11])
+scale = Scale.create!(name: "major", degrees: [0,2,4,5,7,9,11])
 Scale.create!(name: "minor", degrees: [0,2,3,5,7,8,10])
 Scale.create!(name: "penta", degrees: [0,2,5,7,9])
 
@@ -42,16 +42,22 @@ TRIAD_0 = [0,2,4]
 TRIAD_1 = [0,2,5]
 TRIAD_2 = [0,3,5]
 
-Chord.create!(name: 'triad', intervals: [TRIAD_0[0], TRIAD_0[1], TRIAD_0[2]])
+chord = Chord.create!(name: 'triad', intervals: [TRIAD_0[0], TRIAD_0[1], TRIAD_0[2]])
 Chord.create!(name: 'triad_6', intervals: [TRIAD_1[0], TRIAD_1[1], TRIAD_1[2]])
 Chord.create!(name: 'triad_64', intervals: [TRIAD_2[0], TRIAD_2[1], TRIAD_2[2]])
 
+user = User.create!(email: "user@example.com", password: "password")
+UserInstrument.create!(user: user, instrument: piano)
+UserScale.create!(user: user, scale: scale)
+UserReverb.create!(user: user, reverb: reverb)
+UserChord.create!(user: user, chord: chord)
+
 Key.all.each do |key|
-  Scale.all.each do |scale|
+  Scale.all.each do |s|
     12.times do |i|
       if scale.degrees.map{ |n| n + key.transposition % 12 }.include?(i)
-        ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: piano), key: key)
-        ScaleNote.create!(scale: scale, note: Note.find_by(name: NOTES[i], instrument: harp), key: key)
+        ScaleNote.create!(scale: s, note: Note.find_by(name: NOTES[i], instrument: piano), key: key)
+        ScaleNote.create!(scale: s, note: Note.find_by(name: NOTES[i], instrument: harp), key: key)
       end
     end
   end

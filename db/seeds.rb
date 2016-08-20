@@ -28,7 +28,19 @@ end
 end
 
 12.times do |i|
+  Note.create!(name: NOTES[i], octave: 4, upload: File.open("#{Rails.root}/public/notes/piano/#{NOTES[i]}4.mp3"), upload_content_type: "audio/mp3", instrument: piano)
+end
+
+12.times do |i|
   Note.create!(name: NOTES[i], octave: 2, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}2.mp3"), upload_content_type: "audio/mp3", instrument: harp)
+end
+
+12.times do |i|
+  Note.create!(name: NOTES[i], octave: 3, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}3.mp3"), upload_content_type: "audio/mp3", instrument: harp)
+end
+
+12.times do |i|
+  Note.create!(name: NOTES[i], octave: 4, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}4.mp3"), upload_content_type: "audio/mp3", instrument: harp)
 end
 
 

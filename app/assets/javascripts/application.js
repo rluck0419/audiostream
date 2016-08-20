@@ -50,12 +50,12 @@ $(document).ready(function() {
             var offset = 1000;
             if (i % 2 != 0) {
                 if (i > 5) {
-                  offset += 200
+                  offset += 2000
                 }
-                offset += 1300
+                offset += 2300
             }
 
-            soundObjs[i].delay = 1000 * i + offset;
+            soundObjs[i].delay = 3000 * i + offset;
             var delay = soundObjs[i].delay;
             // console.log(soundObjs[i].delay);
 

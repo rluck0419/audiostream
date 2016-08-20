@@ -10,6 +10,8 @@ NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 piano = Instrument.create!(name: "piano")
 harp = Instrument.create!(name: "harp")
+marimba = Instrument.create!(name: "marimba")
+instruments = Instrument.all
 
 12.times do |i|
   if i < 6
@@ -19,30 +21,18 @@ harp = Instrument.create!(name: "harp")
   end
 end
 
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 2, upload: File.open("#{Rails.root}/public/notes/piano/#{NOTES[i]}2.mp3"), upload_content_type: "audio/mp3", instrument: piano)
-end
 
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 3, upload: File.open("#{Rails.root}/public/notes/piano/#{NOTES[i]}3.mp3"), upload_content_type: "audio/mp3", instrument: piano)
+instruments.each do |instrument|
+  12.times do |i|
+    Note.create!(name: NOTES[i], octave: 2, upload: File.open("#{Rails.root}/public/notes/#{instrument.name}/#{NOTES[i]}2.mp3"), upload_content_type: "audio/mp3", instrument: instrument)
+  end
+  12.times do |i|
+    Note.create!(name: NOTES[i], octave: 3, upload: File.open("#{Rails.root}/public/notes/#{instrument.name}/#{NOTES[i]}3.mp3"), upload_content_type: "audio/mp3", instrument: instrument)
+  end
+  12.times do |i|
+    Note.create!(name: NOTES[i], octave: 4, upload: File.open("#{Rails.root}/public/notes/#{instrument.name}/#{NOTES[i]}4.mp3"), upload_content_type: "audio/mp3", instrument: instrument)
+  end
 end
-
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 4, upload: File.open("#{Rails.root}/public/notes/piano/#{NOTES[i]}4.mp3"), upload_content_type: "audio/mp3", instrument: piano)
-end
-
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 2, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}2.mp3"), upload_content_type: "audio/mp3", instrument: harp)
-end
-
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 3, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}3.mp3"), upload_content_type: "audio/mp3", instrument: harp)
-end
-
-12.times do |i|
-  Note.create!(name: NOTES[i], octave: 4, upload: File.open("#{Rails.root}/public/notes/harp/#{NOTES[i]}4.mp3"), upload_content_type: "audio/mp3", instrument: harp)
-end
-
 
 reverb = Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
 
@@ -70,6 +60,7 @@ Key.all.each do |key|
       if scale.degrees.map{ |n| n + key.transposition % 12 }.include?(i)
         ScaleNote.create!(scale: s, note: Note.find_by(name: NOTES[i], instrument: piano), key: key)
         ScaleNote.create!(scale: s, note: Note.find_by(name: NOTES[i], instrument: harp), key: key)
+        ScaleNote.create!(scale: s, note: Note.find_by(name: NOTES[i], instrument: marimba), key: key)
       end
     end
   end

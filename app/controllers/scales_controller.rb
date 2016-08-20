@@ -11,6 +11,7 @@ class ScalesController < ApplicationController
     reverb = Reverb.first
     piano_notes = []
     harp_notes = []
+    marimba_notes = []
     all_notes = Note.all
     notes = notes_in_key_and_scale(key.name, scale)
 
@@ -21,7 +22,10 @@ class ScalesController < ApplicationController
       if notes.include?(note.name) && note.instrument.name == "harp"
         harp_notes << note
       end
+      if notes.include?(note.name) && note.instrument.name == "marimba"
+        marimba_notes << note
+      end
     end
-    render locals: { piano_notes: piano_notes, harp_notes: harp_notes, reverb: reverb }
+    render locals: { piano_notes: piano_notes, harp_notes: harp_notes, marimba_notes: marimba_notes, reverb: reverb }
   end
 end

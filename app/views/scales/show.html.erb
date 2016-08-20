@@ -14,6 +14,14 @@
   <% end %>
 </div>
 
+<div class="center">Marimba</div>
+<div class="center">
+  <% marimba_notes.each do |note| %>
+    <%= audio_tag note.upload.url %>
+    <%= "#{note.name}#{note.octave}" %>
+  <% end %>
+</div>
+
 <div class="center">
   <%= audio_tag reverb.upload.url %>
   <%= reverb.name %>

@@ -11,8 +11,10 @@ NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 piano = Instrument.create!(name: "piano")
 Instrument.create!(name: "harp")
 Instrument.create!(name: "marimba")
+Instrument.create!(name: "viola")
 Instrument.create!(name: "squarewave")
 Instrument.create!(name: "softwave")
+Instrument.create!(name: "sawwave")
 
 instruments = Instrument.all
 

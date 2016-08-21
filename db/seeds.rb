@@ -15,6 +15,7 @@ Instrument.create!(name: "viola")
 Instrument.create!(name: "squarewave")
 Instrument.create!(name: "softwave")
 Instrument.create!(name: "sawwave")
+Instrument.create!(name: "voxwave")
 
 instruments = Instrument.all
 

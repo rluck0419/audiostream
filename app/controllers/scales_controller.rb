@@ -18,25 +18,25 @@ class ScalesController < ApplicationController
     final_notes = []
 
     all_notes.each_with_index do |note, index|
-      if notes.include?(note.name) && note.instrument.name == "piano"
+      if notes.include?(note.name)
         final_notes << note
-        # piano_notes << note
-      end
-      if notes.include?(note.name) && note.instrument.name == "harp"
-        final_notes << note
-        # harp_notes << note
-      end
-      if notes.include?(note.name) && note.instrument.name == "marimba"
-        final_notes << note
-        # marimba_notes << note
-      end
-      if notes.include?(note.name) && note.instrument.name == "squarewave"
-        final_notes << note
-        # squarewave_notes << note
+        # if note.instrument.name == "piano"
+        #   piano_notes << note
+        # end
+        # if notes.include?(note.name) && note.instrument.name == "harp"
+        #   harp_notes << note
+        # end
+        # if notes.include?(note.name) && note.instrument.name == "marimba"
+        #   marimba_notes << note
+        # end
+        # if notes.include?(note.name) && note.instrument.name == "squarewave"
+        #   squarewave_notes << note
+        # end
       end
     end
     final_notes = final_notes.shuffle
 
+    # insure that the first note is the root note of the scale
     popped_note = final_notes.first
     until popped_note.name == key.name && popped_note.octave == 2
       popped_note = final_notes.pop

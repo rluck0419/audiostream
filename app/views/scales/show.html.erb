@@ -1,26 +1,14 @@
-<div class="center">Piano</div>
+<div class="center">Squarewave</div>
 <div class="center">
-  <% piano_notes.each do |note| %>
+  <% notes.each do |note| %>
     <%= audio_tag note.upload.url %>
       <%= "#{note.name}#{note.octave}" %>
   <% end %>
 </div>
 
-<div class="center">Harp</div>
-<div class="center">
-  <% harp_notes.each do |note| %>
-    <%= audio_tag note.upload.url %>
-    <%= "#{note.name}#{note.octave}" %>
-  <% end %>
-</div>
+<div class="center">key: <%= key %></div>
 
-<div class="center">Marimba</div>
-<div class="center">
-  <% marimba_notes.each do |note| %>
-    <%= audio_tag note.upload.url %>
-    <%= "#{note.name}#{note.octave}" %>
-  <% end %>
-</div>
+
 
 <div class="center">
   <%= audio_tag reverb.upload.url %>

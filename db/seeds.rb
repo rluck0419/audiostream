@@ -8,14 +8,14 @@
 
 NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
-piano = Instrument.create!(name: "piano")
-Instrument.create!(name: "harp")
-Instrument.create!(name: "marimba")
-Instrument.create!(name: "viola")
-Instrument.create!(name: "squarewave")
-Instrument.create!(name: "softwave")
-Instrument.create!(name: "sawwave")
-Instrument.create!(name: "voxwave")
+piano = Instrument.create!(name: "piano", category: "orchestral")
+Instrument.create!(name: "harp", category: "orchestral")
+Instrument.create!(name: "marimba", category: "orchestral")
+Instrument.create!(name: "viola", category: "orchestral")
+Instrument.create!(name: "squarewave", category: "synthesizer")
+Instrument.create!(name: "softwave", category: "synthesizer")
+Instrument.create!(name: "sawwave", category: "synthesizer")
+Instrument.create!(name: "voxwave", category: "synthesizer")
 
 instruments = Instrument.all
 

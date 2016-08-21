@@ -1,4 +1,4 @@
-<div class="center">Squarewave</div>
+<div class="center">Notes:</div>
 <div class="center">
   <% notes.each do |note| %>
     <%= audio_tag note.upload.url %>
@@ -6,11 +6,11 @@
   <% end %>
 </div>
 
-<div class="center">key: <%= key %></div>
+<div class="center">Key: <%= key %></div>
 
 
 
-<div class="center">
+<div class="center">Reverb:
   <%= audio_tag reverb.upload.url %>
   <%= reverb.name %>
 </div>

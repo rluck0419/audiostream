@@ -12,6 +12,7 @@ piano = Instrument.create!(name: "piano")
 Instrument.create!(name: "harp")
 Instrument.create!(name: "marimba")
 Instrument.create!(name: "squarewave")
+Instrument.create!(name: "softwave")
 
 instruments = Instrument.all
 

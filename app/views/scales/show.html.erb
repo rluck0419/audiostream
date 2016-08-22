@@ -1,9 +1,7 @@
 <div class="center">Notes:</div>
 <div class="center">
   <% notes.each do |note| %>
-    <% if note.instrument.category == "synthesizer" %>
-      
-    <% else %>
+    <% unless note.instrument.category == "synthesizer" %>
       <%= audio_tag note.upload.url %>
     <% end %>
     <%= "#{note.name}#{note.octave}" %>

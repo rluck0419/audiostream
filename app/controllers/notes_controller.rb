@@ -3,28 +3,19 @@ class NotesController < ApplicationController
     all_notes = Note.all
     notes = all_notes
     key = Key.all.sample
-    piano_notes = []
-    harp_notes = []
+    output_notes = []
     if user_logged_in?
       scale = current_user.scales.first
       reverb = current_user.reverbs.first
       notes = notes_in_key_and_scale(key.name, scale)
 
       all_notes.each_with_index do |note, index|
-        if notes.include?(note.name) && note.instrument.name == "piano"
-          piano_notes << note
-        end
-        if notes.include?(note.name) && note.instrument.name == "harp"
-          harp_notes << note
+        if notes.include?(note.name) && note.instrument.name == current_user.instruments.first.name
+          output_notes << note
         end
       end
     end
-    if piano_notes.empty? && harp_notes.empty?
-      notes = all_notes
-    else
-      notes = piano_notes + harp_notes
-    end
-    render locals: { notes: notes, reverb: reverb }
+    render locals: { notes: output_notes, reverb: reverb }
   end
 
   def new

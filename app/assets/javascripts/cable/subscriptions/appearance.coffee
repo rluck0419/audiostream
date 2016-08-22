@@ -15,8 +15,10 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
 
   received: (data) ->
     console.log("received:" , data)
-    $("body").append("<p>" + data["user"] + "</p>") if data["type"] == "join"
-    $("<p>" + data["user"] + "</p>").remove() if data["type"] == "leave"
+    $("body").append("<p class='user" + data["user_id"] + "'>" + data["user_email"] + "</p>") if data["type"] == "join"
+    class_name = ".user" + data["user_id"]
+    console.log(class_name)
+    $(class_name).remove() if data["type"] == "leave"
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

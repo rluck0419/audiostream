@@ -19,6 +19,7 @@ class User < ApplicationRecord
   end
 
   def disappear
+    UserDisappearJob.perform_now(self)
   end
 
   def away

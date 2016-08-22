@@ -15,8 +15,9 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
 
   received: (data) ->
     console.log("received:" , data)
-    $("body").append("<p class='user" + data["user_id"] + "'>" + data["user_email"] + "</p>") if data["type"] == "join"
     class_name = ".user" + data["user_id"]
+    if data["type"] == "join" and not $(class_name).length
+      $("body").append("<div class='user" + data["user_id"] + "'>" + data["user_email"] + "</div>")
     console.log(class_name)
     $(class_name).remove() if data["type"] == "leave"
 

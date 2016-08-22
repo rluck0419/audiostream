@@ -4,6 +4,7 @@ class NotesController < ApplicationController
     notes = all_notes
     key = Key.all.sample
     output_notes = []
+    users = User.where.not(appearing_on: nil)
     if user_logged_in?
       if current_user.scales.empty?
         scale = Scale.first
@@ -31,7 +32,7 @@ class NotesController < ApplicationController
         end
       end
     end
-    render locals: { notes: output_notes, reverb: reverb }
+    render locals: { notes: output_notes, reverb: reverb, users: users }
   end
 
   def new

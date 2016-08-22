@@ -2,7 +2,9 @@
   <%= audio_tag note.upload.url %>
 <% end %>
 
-<div class="right">
-  Users:
-  <%  %>
-</div>
+<div>Users:</div>
+<% unless users.empty? %>
+  <% users.each do |user| %>
+    <div class="user<%= user.id %>"><%= user.email %></div>
+  <% end %>
+<% end %>

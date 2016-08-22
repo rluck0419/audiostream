@@ -19,6 +19,8 @@ class User < ApplicationRecord
   end
 
   def disappear
+    self.appearing_on = nil
+    self.save
     UserDisappearJob.perform_now(self)
   end
 

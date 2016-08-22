@@ -10,16 +10,12 @@ class SessionsController < ApplicationController
   end
 
   def authenticate
-    if user_logged_in?
-      if user.authenticate(params[:password])
-        flash[:notice] = "Signed in!"
-        session[:user_id] = user.id
-        cookies.signed[:user_id] = user.id
-        redirect_to root_path
-      else
-        flash[:alert] = "Wrong email or password"
-        render :sign_in
-      end
+    user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      flash[:notice] = "Signed in!"
+      session[:user_id] = user.id
+      cookies.signed[:user_id] = user.id
+      redirect_to root_path
     else
       flash[:alert] = "Wrong email or password"
       render :sign_in

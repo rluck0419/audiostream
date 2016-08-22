@@ -5,12 +5,28 @@ class NotesController < ApplicationController
     key = Key.all.sample
     output_notes = []
     if user_logged_in?
-      scale = current_user.scales.first
-      reverb = current_user.reverbs.first
+      if current_user.scales.empty?
+        scale = Scale.first
+      else
+        scale = current_user.scales.first
+      end
+
+      if current_user.reverbs.empty?
+        reverb = Reverb.first
+      else
+        reverb = current_user.reverbs.first
+      end
+
       notes = notes_in_key_and_scale(key.name, scale)
 
+      if current_user.instruments.empty?
+        instrument = Instrument.first
+      else
+        instrument = current_user.instruments.first
+      end
+
       all_notes.each_with_index do |note, index|
-        if notes.include?(note.name) && note.instrument.name == current_user.instruments.first.name
+        if notes.include?(note.name) && note.instrument.name == instrument.name
           output_notes << note
         end
       end

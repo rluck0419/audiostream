@@ -55,6 +55,7 @@ Chord.create!(name: 'triad_6', intervals: [TRIAD_1[0], TRIAD_1[1], TRIAD_1[2]])
 Chord.create!(name: 'triad_64', intervals: [TRIAD_2[0], TRIAD_2[1], TRIAD_2[2]])
 
 user = User.create!(email: "user@example.com", password: "password")
+User.create!(email: "admin@example.com", password: "password")
 UserInstrument.create!(user: user, instrument: piano)
 UserScale.create!(user: user, scale: major)
 UserReverb.create!(user: user, reverb: airport)

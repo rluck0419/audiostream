@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  require 'current_user'
-  include CurrentUser
   has_secure_password
   has_many :user_instruments
   has_many :instruments, through: :user_instruments
@@ -14,12 +12,13 @@ class User < ApplicationRecord
   has_many :user_reverbs
   has_many :reverbs, through: :user_reverbs
 
-  def appear(datetime = Time.zone.now)
-    self.appearing_on = datetime
+  def appear(datetime = {})
+    self.appearing_on = datetime[:on] || Time.zone.now
     self.save
+    UserAppearJob.perform_now(self, self.appearing_on)
   end
 
-  def dissappear
+  def disappear
   end
 
   def away

@@ -12,10 +12,58 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require materialize-sprockets
 //= require turbolinks
 //= require_tree .
 
+function initialize() {
+    var sounds = document.getElementsByTagName("audio");
+    var reverb = sounds[-1];
+    var soundObjs = [];
+
+    // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
+    for (var i = 0; i < sounds.length - 1; i++) {
+        soundObjs[i] = new Object();
+
+        soundObjs[i].sound = sounds[i];
+
+        var offset = 1000;
+        if (i % 2 != 0) {
+            if (i > 5) {
+              offset += 2000
+            }
+            offset += 2300
+        }
+
+        soundObjs[i].delay = 3000 * i + offset;
+        var delay = soundObjs[i].delay;
+        // console.log(soundObjs[i].delay);
+
+        startLoop(soundObjs[i].sound, delay);
+    }
+
+    document.getElementById('pauseButton').onclick = function() {
+        var sounds = document.getElementsByTagName('audio');
+        if (paused == false) {
+            for (i = 0; i < sounds.length; i++) {
+              sounds[i].pause();
+              paused = true;
+            }
+        } else {
+            for (i = 0; i < sounds.length; i++) {
+              sounds[i].play();
+              paused = false;
+            }
+        }
+    }
+}
+
+function startLoop(sound, seconds) {
+    setInterval(function () { sound.play() }.bind(this), seconds);
+}
+
 $(document).ready(function() {
+    $('select').material_select();
     var paused = false;
 
     var audioSection = $('section#audio');
@@ -31,55 +79,5 @@ $(document).ready(function() {
         return false;
     });
 
-    function startLoop(sound, seconds) {
-        setInterval(function () { sound.play() }.bind(this), seconds);
-    }
-
-
-    function initialize() {
-        var sounds = document.getElementsByTagName("audio");
-        var reverb = sounds[-1];
-        var soundObjs = [];
-
-        // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
-        for (var i = 0; i < sounds.length - 1; i++) {
-            soundObjs[i] = new Object();
-
-            soundObjs[i].sound = sounds[i];
-
-            var offset = 1000;
-            if (i % 2 != 0) {
-                if (i > 5) {
-                  offset += 2000
-                }
-                offset += 2300
-            }
-
-            soundObjs[i].delay = 3000 * i + offset;
-            var delay = soundObjs[i].delay;
-            // console.log(soundObjs[i].delay);
-
-            startLoop(soundObjs[i].sound, delay);
-        }
-
-        document.getElementById('pauseButton').onclick = function() {
-            var sounds = document.getElementsByTagName('audio');
-            if (paused == false) {
-                for (i = 0; i < sounds.length; i++) {
-                  sounds[i].pause();
-                  paused = true;
-                }
-            } else {
-                for (i = 0; i < sounds.length; i++) {
-                  sounds[i].play();
-                  paused = false;
-                }
-            }
-        };
-    }
-
-    $(document).ready(function() {
-        initialize();
-        $('select').material_select();
-    });
+    initialize();
 });

@@ -14,7 +14,9 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     @uninstall()
 
   received: (data) ->
-    console.log("recieved:" , data)
+    console.log("received:" , data)
+    $("body").append("<p>" + data["user"] + "</p>") if data["type"] == "join"
+    $("<p>" + data["user"] + "</p>").remove() if data["type"] == "leave"
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

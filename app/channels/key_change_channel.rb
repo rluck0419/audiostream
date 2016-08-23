@@ -1,6 +1,5 @@
 class KeyChangeChannel < ApplicationCable::Channel
   def subscribed
-    puts "subscribed to key_change"
     stream_from "key_change"
   end
 

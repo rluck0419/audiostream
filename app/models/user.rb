@@ -25,7 +25,10 @@ class User < ApplicationRecord
   end
 
   def key_change
-    ChangeKeyJob.perform_now(Key.all.sample, self.scales.first)
+    key = Key.all.sample
+    scale = self.scales.sample
+    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
+    ChangeKeyJob.perform_now(Key.all.sample, self.scales.sample, notes)
   end
 
   def away

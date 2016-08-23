@@ -14,7 +14,7 @@ class ScalesController < ApplicationController
     # marimba_notes = []
     # squarewave_notes = []
     all_notes = Note.all
-    notes = notes_in_key_and_scale(key.name, scale)
+    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
     chord = [notes[0], notes[2], notes[4]]
     chord6 = [notes[0], notes[2], notes[5]]
     chord64 = [notes[0], notes[3], notes[5]]

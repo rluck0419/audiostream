@@ -1,7 +1,7 @@
 App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change" },
 
   connected: ->
-    @change()
+    setInterval @change(), 5000
 
   received: (data) ->
     console.log("received", data)
@@ -12,9 +12,9 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         for l in App.loops
           clearInterval(l)
         App.restartSession = true
-        ), 30000
+        ), 5000
 
 
 
   change: ->
-    @perform("change", appearing_on: $("main").data("appearing-on"))
+    @perform("change")

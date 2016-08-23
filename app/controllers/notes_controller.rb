@@ -18,7 +18,7 @@ class NotesController < ApplicationController
         reverb = current_user.reverbs.first
       end
 
-      notes = notes_in_key_and_scale(key.name, scale)
+      notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
 
       if current_user.instruments.empty?
         instrument = Instrument.first

@@ -7,4 +7,12 @@ class Note < ApplicationRecord
   validates_attachment :upload, content_type: {
     content_type: ["audio/mp3", "audio/x-mp3", "audio/mpeg3", "audio/x-mpeg-3", "video/mpeg-3", "video/x-mpeg", "audio/wav", "audio/x-wav"]
   }
+
+  def upload_url
+    self.upload.try(:url)
+  end
+
+  def as_json(_ = nil)
+    super(methods: [:upload_url])
+  end
 end

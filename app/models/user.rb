@@ -28,7 +28,17 @@ class User < ApplicationRecord
     key = Key.all.sample
     scale = self.scales.sample
     notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
-    ChangeKeyJob.perform_now(Key.all.sample, self.scales.sample, notes)
+    instrument = self.instruments.sample
+    all_notes = Note.where(instrument: instrument)
+    output_notes = []
+
+    all_notes.each do |note|
+      if notes.include?(note.name)
+        output_notes << note
+      end
+    end
+    notes = output_notes
+    ChangeKeyJob.perform_now(Key.all.sample, scale, notes)
   end
 
   def away

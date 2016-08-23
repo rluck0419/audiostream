@@ -61,8 +61,8 @@ function initialize() {
 }
 
 function startLoop(sound, seconds) {
-    var loop = setInterval(function () { sound.play() }.bind(this), seconds);
-    App.loops.push(loop);
+    var l = setInterval(function () { sound.play() }.bind(this), seconds);
+    App.loops.push(l);
 }
 
 $(document).ready(function() {

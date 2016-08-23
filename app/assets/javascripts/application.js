@@ -20,6 +20,8 @@ function initialize() {
     var sounds = document.getElementsByTagName("audio");
     var reverb = sounds[-1];
     var soundObjs = [];
+    App.loops = [];
+    App.restartSession = false;
 
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
     for (var i = 0; i < sounds.length - 1; i++) {
@@ -59,7 +61,8 @@ function initialize() {
 }
 
 function startLoop(sound, seconds) {
-    setInterval(function () { sound.play() }.bind(this), seconds);
+    var loop = setInterval(function () { sound.play() }.bind(this), seconds);
+    App.loops.push(loop);
 }
 
 $(document).ready(function() {

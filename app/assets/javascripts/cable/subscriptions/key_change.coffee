@@ -5,7 +5,16 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
 
   received: (data) ->
     console.log("received", data)
-    $("audio").remove()
+    if App.restartSession == false
+      setTimeout ( ->
+        console.log("timeout function running")
+        $("audio").remove()
+        for l in App.loops
+          clearInterval(l)
+        App.restartSession = true
+        ), 30000
+
+
 
   change: ->
     @perform("change", appearing_on: $("main").data("appearing-on"))

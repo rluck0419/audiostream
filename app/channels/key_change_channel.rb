@@ -1,7 +1,11 @@
 class KeyChangeChannel < ApplicationCable::Channel
   def subscribed
-    # current_user.appear
+    puts "subscribed to key_change"
     stream_from "key_change"
+  end
+
+  def change
+    current_user.key_change
   end
 
   # def receive(data)

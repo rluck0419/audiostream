@@ -1,6 +1,8 @@
 <% notes.each do |note| %>
   <%= audio_tag note.upload.url %>
+  <%= note.name %>
 <% end %>
+Key: <%= key.name %>
 
 <div>Users:</div>
 <% unless users.empty? %>

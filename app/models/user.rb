@@ -24,6 +24,10 @@ class User < ApplicationRecord
     UserDisappearJob.perform_now(self)
   end
 
+  def key_change
+    ChangeKeyJob.perform_now(Key.all.sample, self.scales.first)
+  end
+
   def away
   end
 end

@@ -1,11 +1,13 @@
 class NotesController < ApplicationController
+
   def index
-    all_notes = Note.all
-    notes = all_notes
-    key = Key.all.sample
-    output_notes = []
-    users = User.where.not(appearing_on: nil)
     if user_logged_in?
+      if current_user.instruments.empty?
+        instrument = Instrument.first
+      else
+        instrument = current_user.instruments.first
+      end
+
       if current_user.scales.empty?
         scale = Scale.first
       else
@@ -17,19 +19,19 @@ class NotesController < ApplicationController
       else
         reverb = current_user.reverbs.first
       end
+    end
 
-      notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
+    all_notes = Note.where(instrument: instrument)
+    notes = all_notes
+    key = Key.all.sample
+    output_notes = []
+    users = User.where.not(appearing_on: nil)
 
-      if current_user.instruments.empty?
-        instrument = Instrument.first
-      else
-        instrument = current_user.instruments.first
-      end
+    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
 
-      all_notes.each_with_index do |note, index|
-        if notes.include?(note.name) && note.instrument.name == instrument.name
-          output_notes << note
-        end
+    all_notes.each_with_index do |note, index|
+      if notes.include?(note.name)
+        output_notes << note
       end
     end
     render locals: { notes: output_notes, reverb: reverb, users: users, key: key }

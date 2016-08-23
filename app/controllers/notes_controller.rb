@@ -2,23 +2,25 @@ class NotesController < ApplicationController
 
   def index
     if user_logged_in?
-      if current_user.instruments.empty?
-        instrument = Instrument.first
-      else
+      unless current_user.instruments.empty?
         instrument = current_user.instruments.first
       end
-
-      if current_user.scales.empty?
-        scale = Scale.first
-      else
+      unless current_user.scales.empty?
         scale = current_user.scales.first
       end
-
-      if current_user.reverbs.empty?
-        reverb = Reverb.first
-      else
+      unless current_user.reverbs.empty?
         reverb = current_user.reverbs.first
       end
+    end
+
+    unless instrument
+      instrument = Instrument.first
+    end
+    unless scale
+      scale = Scale.first
+    end
+    unless reverb
+      reverb = Reverb.first
     end
 
     all_notes = Note.where(instrument: instrument)

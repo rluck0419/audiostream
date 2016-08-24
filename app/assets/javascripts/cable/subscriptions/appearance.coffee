@@ -29,17 +29,17 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     @perform("away")
 
   install: ->
-    buttonSelector = "[data-behavior~=appear_away]"
+    # buttonSelector = "[data-behavior~=appear_away]"
+    #
+    # $(document).on "page:change.appearance", =>
+    #   # @appear()
+    #
+    # $(document).on "click.appearance", buttonSelector, =>
+    #   @away()
+    #   false
 
-    $(document).on "page:change.appearance", =>
-      # @appear()
-
-    $(document).on "click.appearance", buttonSelector, =>
-      @away()
-      false
-
-    $(buttonSelector).show()
+    # $(buttonSelector).show()
 
   uninstall: ->
     $(document).off(".appearance")
-    $(buttonSelector).hide()
+    # $(buttonSelector).hide()

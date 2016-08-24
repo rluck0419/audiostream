@@ -1,5 +1,5 @@
 class Note < ApplicationRecord
-  has_attached_file :upload
+  has_attached_file :upload, s3_protocol: :https
   has_many :scale_notes
   belongs_to :instrument
 

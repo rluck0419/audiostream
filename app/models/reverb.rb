@@ -1,5 +1,5 @@
 class Reverb < ApplicationRecord
-  has_attached_file :upload
+  has_attached_file :upload, s3_protocol: :https
   has_many :user_reverbs
 
   validates :upload, attachment_presence: true

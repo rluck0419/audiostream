@@ -144,6 +144,6 @@ $(document).ready(function() {
 
     startVisuals();
 
-    $("#visuals").on("click", createCircle());
+    $("#visuals").on("click", function () { createCircle() });
     initialize();
 });

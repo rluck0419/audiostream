@@ -24,31 +24,28 @@ function fetchSample(path) {
 
 function playSample(path, destination) {
     fetchSample(path).then(response => {
-        console.log(response);
         let bufferSource = App.audioContext.createBufferSource();
         bufferSource.buffer = response;
-        bufferSource.connect(App.audioContext.destination);
         bufferSource.connect(App.gainNode).connect(destination);
         bufferSource.start();
-        App.gainNode.gain.value = 0.05;
+        App.gainNode.gain.value = 0.25;
     });
 }
 
 function initialize() {
     var sounds = document.getElementsByTagName("audio");
-    var soundObjs = [];
+    App.soundObjs = [];
     App.audioContext = new AudioContext();
     App.gainNode = App.audioContext.createGain();
     App.arrayBuffer = new ArrayBuffer(16);
-    App.loops = [];
     App.restartSession = false;
 
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
     for (var i = 0; i < sounds.length - 1; i++) {
-        soundObjs[i] = new Object();
+        App.soundObjs[i] = new Object();
 
-        soundObjs[i].sound = sounds[i];
-        soundObjs[i].url = sounds[i].src;
+        App.soundObjs[i].sound = sounds[i];
+        App.soundObjs[i].url = sounds[i].src;
 
         var offset = 5000;
         if (i % 2 != 0) {
@@ -57,30 +54,42 @@ function initialize() {
             }
             offset += 2000
         }
-        soundObjs[i].delay = 5000 * i + offset;
-        console.log(soundObjs[i].delay);
+        App.soundObjs[i].delay = 5000 * i + offset;
+        console.log(App.soundObjs[i].delay);
 
         // startLoop(soundObjs[i].sound, delay);
     }
 
-    console.log(sounds.length);
-    fetchSample(sounds[21].src).then(convolverBuffer => {
+    reverb = sounds[sounds.length - 1].src;
+    fetchSample(reverb).then(convolverBuffer => {
 
-        let convolver = App.audioContext.createConvolver();
-        convolver.buffer = convolverBuffer;
-        convolver.connect(App.audioContext.destination);
+        App.convolver = App.audioContext.createConvolver();
+        App.convolver.buffer = convolverBuffer;
+        App.convolver.connect(App.audioContext.destination);
         App.gainNode.connect(App.audioContext.destination);
 
-        var fetchResponse0 = setInterval( function () { playSample(soundObjs[0].url, convolver) }, soundObjs[0].delay);
-        var fetchResponse1 = setInterval( function () { playSample(soundObjs[1].url, convolver) }, soundObjs[1].delay);
-        var fetchResponse2 = setInterval( function () { playSample(soundObjs[2].url, convolver) }, soundObjs[2].delay);
-        var fetchResponse3 = setInterval( function () { playSample(soundObjs[3].url, convolver) }, soundObjs[3].delay);
-        var fetchResponse4 = setInterval( function () { playSample(soundObjs[4].url, convolver) }, soundObjs[4].delay);
-        var fetchResponse5 = setInterval( function () { playSample(soundObjs[5].url, convolver) }, soundObjs[5].delay);
-        var fetchResponse6 = setInterval( function () { playSample(soundObjs[6].url, convolver) }, soundObjs[6].delay);
-        var fetchResponse6 = setInterval( function () { playSample(soundObjs[7].url, convolver) }, soundObjs[7].delay);
-        var fetchResponse6 = setInterval( function () { playSample(soundObjs[8].url, convolver) }, soundObjs[8].delay);
-        var fetchResponse6 = setInterval( function () { playSample(soundObjs[9].url, convolver) }, soundObjs[9].delay);
+        var fetchResponse0 = setInterval( function () { playSample(App.soundObjs[0].url, App.convolver) }, App.soundObjs[0].delay);
+        var fetchResponse1 = setInterval( function () { playSample(App.soundObjs[1].url, App.convolver) }, App.soundObjs[1].delay);
+        var fetchResponse2 = setInterval( function () { playSample(App.soundObjs[2].url, App.convolver) }, App.soundObjs[2].delay);
+        var fetchResponse3 = setInterval( function () { playSample(App.soundObjs[3].url, App.convolver) }, App.soundObjs[3].delay);
+        var fetchResponse4 = setInterval( function () { playSample(App.soundObjs[4].url, App.convolver) }, App.soundObjs[4].delay);
+        var fetchResponse5 = setInterval( function () { playSample(App.soundObjs[5].url, App.convolver) }, App.soundObjs[5].delay);
+        var fetchResponse6 = setInterval( function () { playSample(App.soundObjs[6].url, App.convolver) }, App.soundObjs[6].delay);
+        var fetchResponse7 = setInterval( function () { playSample(App.soundObjs[7].url, App.convolver) }, App.soundObjs[7].delay);
+        var fetchResponse8 = setInterval( function () { playSample(App.soundObjs[8].url, App.convolver) }, App.soundObjs[8].delay);
+        var fetchResponse9 = setInterval( function () { playSample(App.soundObjs[9].url, App.convolver) }, App.soundObjs[9].delay);
+        App.loops = [
+          fetchResponse0,
+          fetchResponse1,
+          fetchResponse2,
+          fetchResponse3,
+          fetchResponse4,
+          fetchResponse5,
+          fetchResponse6,
+          fetchResponse7,
+          fetchResponse8,
+          fetchResponse9
+        ];
     });
 
     $("audio").remove();

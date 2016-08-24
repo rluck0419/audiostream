@@ -1,14 +1,10 @@
 App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change" },
 
   connected: ->
-    setInterval @change.bind(@), 120000
+    setInterval @change.bind(@), 10000
 
   received: (data) ->
-    console.log("received", data)
     setTimeout ( ->
-      console.log("timeout function running")
-
-      $("audio").remove()
       for l in App.loops
         l
         clearInterval(l)
@@ -19,20 +15,55 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         $("body").append(audioElement)
 
       sounds = document.getElementsByTagName("audio");
-      soundObjs = [];
 
+      urls = []
+      delays = []
       for sound, i in sounds
-        offset = 1000;
+        offset = 5000;
         if (i % 2 != 0)
-          offset += 1300
+          offset += 2000
           if (i > 5)
             offset += 2000
 
-        delay = 3000 * i + offset;
-        console.log(delay)
+        urls[i] = sound.src
+        delays[i] = 3000 * i + offset
+        console.log(delays[i])
+        console.log(urls[i])
         console.log(sound)
-        `startLoop(sound, delay)`
-      ), 120000
+      fetchResponse0 = setInterval(( ->
+          playSample(urls[0], App.convolver)
+          ), delays[0])
+      fetchResponse1 = setInterval(( ->
+          playSample(urls[1], App.convolver)
+          ), delays[1])
+      fetchResponse2 = setInterval(( ->
+          playSample(urls[2], App.convolver)
+          ), delays[2])
+      fetchResponse3 = setInterval(( ->
+        playSample(urls[3], App.convolver)
+        ), delays[3])
+      fetchResponse4 = setInterval(( ->
+        playSample(urls[4], App.convolver)
+        ), delays[4])
+      fetchResponse5 = setInterval(( ->
+        playSample(urls[5], App.convolver)
+        ), delays[5])
+      fetchResponse6 = setInterval(( ->
+        playSample(urls[6], App.convolver)
+        ), delays[6])
+      fetchResponse7 = setInterval(( ->
+        playSample(urls[7], App.convolver)
+        ), delays[7])
+      fetchResponse8 = setInterval(( ->
+        playSample(urls[8], App.convolver)
+        ), delays[8])
+      fetchResponse9 = setInterval(( ->
+        playSample(urls[9], App.convolver)
+        ), delays[9])
+
+      # `startLoop(sound, delay)`
+      $("audio").remove()
+    ), 10000
 
   change: ->
     console.log("performing change")

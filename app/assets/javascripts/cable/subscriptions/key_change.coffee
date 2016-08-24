@@ -1,7 +1,7 @@
 App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change" },
 
   connected: ->
-    setInterval @change.bind(@), 10000
+    setInterval @change.bind(@), 120000
 
   received: (data) ->
     setTimeout ( ->
@@ -57,10 +57,22 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
       fetchResponse9 = setInterval(( ->
         playSample(urls[9], App.convolver)
         ), delays[9])
+      App.loops = [
+        fetchResponse0,
+        fetchResponse1,
+        fetchResponse2,
+        fetchResponse3,
+        fetchResponse4,
+        fetchResponse5,
+        fetchResponse6,
+        fetchResponse7,
+        fetchResponse8,
+        fetchResponse9,
+      ]
       console.log("key changed")
       # `startLoop(sound, delay)`
       $("audio").remove()
-    ), 10000
+    ), 120000
 
   change: ->
     @perform("change")

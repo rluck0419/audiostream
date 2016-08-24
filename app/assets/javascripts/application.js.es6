@@ -94,6 +94,14 @@ function initialize() {
     // }
 }
 
+function startVisuals() {
+    var canvas = document.getElementById("visuals");
+    canvas.width = document.body.clientWidth; //document.width is obsolete
+    canvas.height = document.body.clientHeight; //document.height is obsolete
+    var canvasW = canvas.width;
+    var canvasH = canvas.height;
+}
+
 $(document).ready(function() {
     $('select').material_select();
     var paused = false;
@@ -111,5 +119,6 @@ $(document).ready(function() {
         return false;
     });
 
+    startVisuals();
     initialize();
 });

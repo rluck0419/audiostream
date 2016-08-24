@@ -100,11 +100,14 @@ function startVisuals() {
     canvas.height = document.body.clientHeight; //document.height is obsolete
     var canvasW = canvas.width;
     var canvasH = canvas.height;
+    App.stage = new createjs.Stage("visuals");
     createCircle();
+    createjs.Ticker.setFPS(30);
+    createjs.Ticker.addEventListener("tick", App.stage);
 }
 
 function createCircle() {
-    var stage = new createjs.Stage("visuals");
+    // var stage = new createjs.Stage("visuals");
     var circle = new createjs.Shape();
     circle.graphics.beginFill("DeepSkyBlue").drawCircle(100, 100, 10);
     circle.alpha = 0;
@@ -112,22 +115,14 @@ function createCircle() {
     circle.regY = 100;
     circle.x = 200;
     circle.y = 200;
-    stage.addChild(circle);
-
-
-    // createjs.Tween.get(circle, {override:true}).to({ alpha: 1 }).addEventListener("change", handleChange);
-    // function handleChange(event) {
-    //     // The tween changed.
-    //     console.log("event happend", event)
-        console.log(circle)
-    // }
+    App.stage.addChild(circle);
 
     createjs.Tween.get(circle)
       .to({ scaleX: 4, scaleY: 4, alpha: 1 }, 2000, createjs.Ease.getPowInOut(1))
       .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
 
-    createjs.Ticker.setFPS(30);
-    createjs.Ticker.addEventListener("tick", stage);
+    // createjs.Ticker.setFPS(30);
+    // createjs.Ticker.addEventListener("tick", stage);
 }
 
 $(document).ready(function() {
@@ -148,5 +143,7 @@ $(document).ready(function() {
     });
 
     startVisuals();
+
+    $("#visuals").on("click", createCircle());
     initialize();
 });

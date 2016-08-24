@@ -21,57 +21,21 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
 
       urls = []
       delays = []
+      responses = []
       for sound, i in sounds
-        offset = 5000;
+        offset = 10000;
         if (i % 2 != 0)
-          offset += 2000
+          offset += 5000
           if (i > 5)
             offset += 2000
 
         urls[i] = sound.src
         delays[i] = 3000 * i + offset
-      fetchResponse0 = setInterval(( ->
-          playSample(urls[0], App.convolver)
-          ), delays[0])
-      fetchResponse1 = setInterval(( ->
-          playSample(urls[1], App.convolver)
-          ), delays[1])
-      fetchResponse2 = setInterval(( ->
-          playSample(urls[2], App.convolver)
-          ), delays[2])
-      fetchResponse3 = setInterval(( ->
-        playSample(urls[3], App.convolver)
-        ), delays[3])
-      fetchResponse4 = setInterval(( ->
-        playSample(urls[4], App.convolver)
-        ), delays[4])
-      fetchResponse5 = setInterval(( ->
-        playSample(urls[5], App.convolver)
-        ), delays[5])
-      fetchResponse6 = setInterval(( ->
-        playSample(urls[6], App.convolver)
-        ), delays[6])
-      fetchResponse7 = setInterval(( ->
-        playSample(urls[7], App.convolver)
-        ), delays[7])
-      fetchResponse8 = setInterval(( ->
-        playSample(urls[8], App.convolver)
-        ), delays[8])
-      fetchResponse9 = setInterval(( ->
-        playSample(urls[9], App.convolver)
-        ), delays[9])
-      App.loops = [
-        fetchResponse0,
-        fetchResponse1,
-        fetchResponse2,
-        fetchResponse3,
-        fetchResponse4,
-        fetchResponse5,
-        fetchResponse6,
-        fetchResponse7,
-        fetchResponse8,
-        fetchResponse9,
-      ]
+
+        playThing = (i) -> playSample(urls[i], App.convolver)
+
+        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i), delays[i] ) )(i)
+        App.loops.push(responses[i])
       console.log("key changed", App.loops)
       # `startLoop(sound, delay)`
       $("audio").remove()

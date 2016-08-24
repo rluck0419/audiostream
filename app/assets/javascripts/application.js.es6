@@ -17,6 +17,7 @@
 //= require_tree .
 
 function fetchSample(path) {
+  console.log(path)
   return fetch(path)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => App.audioContext.decodeAudioData(arrayBuffer));
@@ -49,10 +50,10 @@ function initialize() {
         App.soundObjs[i].sound = sounds[i];
         App.soundObjs[i].url = sounds[i].src;
 
-        var offset = 5000;
+        var offset = 10000;
         if (i % 2 != 0) {
             if (i > 5) {
-              offset += 2000
+              offset += 5000
             }
             offset += 2000
         }
@@ -67,15 +68,14 @@ function initialize() {
         App.convolver.buffer = convolverBuffer;
         App.convolver.connect(App.audioContext.destination);
 
-        for (var i = 0; i < App.soundObjs.length - 1; i++) {
-            ( function (i) {
-                var response = setInterval( function () { playSample(App.soundObjs[i].url, App.convolver) }, App.soundObjs[i].delay);
-                console.log(response);
-                App.loops.push(response);
-            })(i);
-        }
+        // for (var i = 0; i < App.soundObjs.length - 1; i++) {
+        //     ( function (i) {
+        //         var response = setInterval( function () { playSample(App.soundObjs[i].url, App.convolver) }, App.soundObjs[i].delay);
+        //         App.loops.push(response);
+        //     })(i);
+        // }
     });
-    console.log(App.loops);
+    // console.log(App.loops);
     $("audio").remove();
 
     // document.getElementById('pauseButton').onclick = function() {

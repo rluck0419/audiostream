@@ -101,20 +101,22 @@ function startVisuals() {
     var canvasW = canvas.width;
     var canvasH = canvas.height;
     App.stage = new createjs.Stage("visuals");
-    createCircle();
+    var x = Math.random() * 200 + 100;
+    var y = Math.random() * 200 + 100;
+    createCircle(x, y);
     createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", App.stage);
 }
 
-function createCircle() {
+function createCircle(x, y) {
     // var stage = new createjs.Stage("visuals");
     var circle = new createjs.Shape();
     circle.graphics.beginFill("DeepSkyBlue").drawCircle(100, 100, 10);
     circle.alpha = 0;
     circle.regX = 100;
     circle.regY = 100;
-    circle.x = 200;
-    circle.y = 200;
+    circle.x = x;
+    circle.y = y;
     App.stage.addChild(circle);
 
     createjs.Tween.get(circle)
@@ -144,6 +146,9 @@ $(document).ready(function() {
 
     startVisuals();
 
-    $("#visuals").on("click", function () { createCircle() });
+    var x = Math.random() * 200 + 100;
+    var y = Math.random() * 200 + 100;
+
+    $("#visuals").on("click", function () { createCircle(x, y) });
     initialize();
 });

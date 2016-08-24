@@ -1,7 +1,7 @@
 App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change" },
 
   connected: ->
-    setInterval @change.bind(@), 120000
+    setInterval @change.bind(@), 10000
 
   received: (data) ->
     setTimeout ( ->
@@ -60,7 +60,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
       console.log("key changed")
       # `startLoop(sound, delay)`
       $("audio").remove()
-    ), 120000
+    ), 10000
 
   change: ->
     @perform("change")

@@ -60,3 +60,5 @@ gem 'aws-sdk', '>= 2.0.34'
 gem 'materialize-sass'
 
 gem 'rails-erd'
+# es6 for web-audio-based js functions
+gem 'sprockets-es6'

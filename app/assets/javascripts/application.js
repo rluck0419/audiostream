@@ -22,22 +22,24 @@ function fetchSample(path) {
     .then(arrayBuffer => App.audioContext.decodeAudioData(arrayBuffer));
 }
 
-function playSample(path) {
+function playSample(path, destination) {
     fetchSample(path).then(response => {
         console.log(response);
         let bufferSource = App.audioContext.createBufferSource();
         bufferSource.buffer = response;
         bufferSource.connect(App.audioContext.destination);
+        bufferSource.connect(App.gainNode).connect(destination);
         bufferSource.start();
+        App.gainNode.gain.value = 0.05;
     });
 }
 
 function initialize() {
     var sounds = document.getElementsByTagName("audio");
-    var reverb = sounds[-1];
     var soundObjs = [];
     App.audioContext = new AudioContext();
-    App.arrayBuffer = new ArrayBuffer(8);
+    App.gainNode = App.audioContext.createGain();
+    App.arrayBuffer = new ArrayBuffer(16);
     App.loops = [];
     App.restartSession = false;
 
@@ -48,21 +50,39 @@ function initialize() {
         soundObjs[i].sound = sounds[i];
         soundObjs[i].url = sounds[i].src;
 
-        var offset = 1000;
+        var offset = 5000;
         if (i % 2 != 0) {
             if (i > 5) {
               offset += 2000
             }
-            offset += 2300
+            offset += 2000
         }
-        soundObjs[i].delay = 3000 * i + offset;
-
-        var fetch_response = playSample(soundObjs[i].url);
-
-        console.log(fetch_response);
+        soundObjs[i].delay = 5000 * i + offset;
+        console.log(soundObjs[i].delay);
 
         // startLoop(soundObjs[i].sound, delay);
     }
+
+    console.log(sounds.length);
+    fetchSample(sounds[21].src).then(convolverBuffer => {
+
+        let convolver = App.audioContext.createConvolver();
+        convolver.buffer = convolverBuffer;
+        convolver.connect(App.audioContext.destination);
+        App.gainNode.connect(App.audioContext.destination);
+
+        var fetchResponse0 = setInterval( function () { playSample(soundObjs[0].url, convolver) }, soundObjs[0].delay);
+        var fetchResponse1 = setInterval( function () { playSample(soundObjs[1].url, convolver) }, soundObjs[1].delay);
+        var fetchResponse2 = setInterval( function () { playSample(soundObjs[2].url, convolver) }, soundObjs[2].delay);
+        var fetchResponse3 = setInterval( function () { playSample(soundObjs[3].url, convolver) }, soundObjs[3].delay);
+        var fetchResponse4 = setInterval( function () { playSample(soundObjs[4].url, convolver) }, soundObjs[4].delay);
+        var fetchResponse5 = setInterval( function () { playSample(soundObjs[5].url, convolver) }, soundObjs[5].delay);
+        var fetchResponse6 = setInterval( function () { playSample(soundObjs[6].url, convolver) }, soundObjs[6].delay);
+        var fetchResponse6 = setInterval( function () { playSample(soundObjs[7].url, convolver) }, soundObjs[7].delay);
+        var fetchResponse6 = setInterval( function () { playSample(soundObjs[8].url, convolver) }, soundObjs[8].delay);
+        var fetchResponse6 = setInterval( function () { playSample(soundObjs[9].url, convolver) }, soundObjs[9].delay);
+    });
+
     $("audio").remove();
 
     // document.getElementById('pauseButton').onclick = function() {
@@ -79,41 +99,6 @@ function initialize() {
     //         }
     //     }
     // }
-}
-
-function startLoop(sound, seconds) {
-    navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-
-    if (navigator.getUserMedia) {
-       console.log('getUserMedia supported.');
-       navigator.getUserMedia (
-          // constraints: audio and video for this app
-          {
-             audio: true,
-             video: false
-          },
-
-          // Success callback
-          function(stream) {
-             App.audioContext.createMediaStreamSource(stream);
-
-             var l = setInterval(function () {
-                 var bufferSource = App.audioContext.createBufferSource();
-                 bufferSource.buffer = sound.src
-                 console.log(bufferSource);
-                 bufferSource.start(App.audioContext.currentTime);
-             }.bind(this), seconds);
-             App.loops.push(l);
-          },
-
-          // Error callback
-          function(err) {
-             console.log('The following gUM error occured: ' + err);
-          }
-       );
-    } else {
-       console.log('getUserMedia not supported on your browser!');
-    }
 }
 
 $(document).ready(function() {

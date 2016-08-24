@@ -4,6 +4,8 @@
 <% end %>
 Key: <%= key.name %>
 
+<%= audio_tag reverb.upload.url %>
+
 <div>Users:</div>
 <% unless users.empty? %>
   <% users.each do |user| %>

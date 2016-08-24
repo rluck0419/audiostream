@@ -6,7 +6,7 @@ class NotesController < ApplicationController
         instrument = current_user.instruments.first
       end
       unless current_user.scales.empty?
-        scale = current_user.scales.first
+        $_scale = current_user.scales.first if $_scale.nil?
       end
       unless current_user.reverbs.empty?
         reverb = current_user.reverbs.first
@@ -16,8 +16,8 @@ class NotesController < ApplicationController
     unless instrument
       instrument = Instrument.first
     end
-    unless scale
-      scale = Scale.first
+    unless $_scale
+      $_scale = Scale.first
     end
     unless reverb
       reverb = Reverb.first
@@ -25,18 +25,18 @@ class NotesController < ApplicationController
 
     all_notes = Note.where(instrument: instrument)
     notes = all_notes
-    key = Key.all.sample
+    $_key = Key.all.sample if $_key.nil?
     output_notes = []
     users = User.where.not(appearing_on: nil)
 
-    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
+    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
 
     all_notes.each_with_index do |note, index|
       if notes.include?(note.name)
         output_notes << note
       end
     end
-    render locals: { notes: output_notes, reverb: reverb, users: users, key: key }
+    render locals: { notes: output_notes, reverb: reverb, users: users, key: $_key }
   end
 
   def new

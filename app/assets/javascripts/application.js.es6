@@ -39,6 +39,7 @@ function initialize() {
     App.gainNode = App.audioContext.createGain();
     App.arrayBuffer = new ArrayBuffer(16);
     App.restartSession = false;
+    App.key = $(".key");
 
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
     for (var i = 0; i < sounds.length - 1; i++) {

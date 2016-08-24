@@ -15,19 +15,10 @@ class User < ApplicationRecord
   def appear(datetime = {})
     self.appearing_on = datetime[:on] || Time.zone.now
     self.save
-    UserAppearJob.perform_now(self, self.appearing_on)
-  end
+    $_key = Key.all.sample if $_key.nil?
+    $_scale = self.scales.sample if $_scale.nil?
 
-  def disappear
-    self.appearing_on = nil
-    self.save
-    UserDisappearJob.perform_now(self)
-  end
-
-  def key_change
-    key = Key.all.sample
-    scale = self.scales.sample
-    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
+    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
     instrument = self.instruments.sample
     all_notes = Note.where(instrument: instrument)
     output_notes = []
@@ -38,7 +29,30 @@ class User < ApplicationRecord
       end
     end
     notes = output_notes
-    ChangeKeyJob.perform_now(Key.all.sample, scale, notes)
+    UserAppearJob.perform_now(self, self.appearing_on, notes)
+  end
+
+  def disappear
+    self.appearing_on = nil
+    self.save
+    UserDisappearJob.perform_now(self)
+  end
+
+  def key_change
+    $_key = Key.all.sample
+    $_scale = self.scales.sample
+    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
+    instrument = self.instruments.sample
+    all_notes = Note.where(instrument: instrument)
+    output_notes = []
+
+    all_notes.each do |note|
+      if notes.include?(note.name)
+        output_notes << note
+      end
+    end
+    notes = output_notes
+    ChangeKeyJob.perform_now($_key, $_scale, notes)
   end
 
   def away

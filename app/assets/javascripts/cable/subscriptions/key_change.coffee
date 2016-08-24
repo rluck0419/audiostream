@@ -9,6 +9,9 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         l
         clearInterval(l)
 
+      App.key = data["key"]
+      console.log(App.key)
+
       for n in data["notes"]
         audioElement = document.createElement('audio')
         audioElement.setAttribute('src', n.upload_url)
@@ -69,7 +72,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         fetchResponse8,
         fetchResponse9,
       ]
-      console.log("key changed")
+      console.log("key changed", App.loops)
       # `startLoop(sound, delay)`
       $("audio").remove()
     ), 30000

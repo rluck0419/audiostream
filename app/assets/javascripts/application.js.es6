@@ -60,7 +60,7 @@ function initialize() {
         // startLoop(soundObjs[i].sound, delay);
     }
 
-    reverb = sounds[sounds.length - 1].src;
+    var reverb = sounds[sounds.length - 1].src;
     fetchSample(reverb).then(convolverBuffer => {
 
         App.convolver = App.audioContext.createConvolver();

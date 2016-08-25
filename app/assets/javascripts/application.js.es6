@@ -62,10 +62,20 @@ function getMousePos(canvas, evt) {
     };
 }
 
-function createCircle(x, y) {
+function createCircle(x, y, instrument) {
     // var stage = new createjs.Stage("visuals");
     var circle = new createjs.Shape();
-    circle.graphics.beginFill("DeepSkyBlue").drawCircle(100, 100, 10);
+    if (instrument == "harp") {
+        circle.graphics.beginFill("#35A7FF").drawCircle(100, 100, 10);
+    } else if (instrument == "piano") {
+        circle.graphics.beginFill("#F8C537").drawCircle(100, 100, 10);
+    } else if (instrument == "viola") {
+        circle.graphics.beginFill("#662C91").drawCircle(100, 100, 10);
+    } else if (instrument == "marimba") {
+        circle.graphics.beginFill("#20FC8F").drawCircle(100, 100, 10);
+    } else {
+        circle.graphics.beginFill("#6D466B").drawCircle(100, 100, 10);
+    }
     circle.alpha = 0;
     circle.regX = 100;
     circle.regY = 100;
@@ -79,10 +89,20 @@ function createCircle(x, y) {
       .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
 }
 
-function createSoundCircle(x, y) {
+function createSoundCircle(x, y, instrument) {
     // var stage = new createjs.Stage("visuals");
     var circle = new createjs.Shape();
-    circle.graphics.beginFill("DeepSkyBlue").drawCircle(100, 100, 10);
+    if (instrument == "harp") {
+        circle.graphics.beginFill("#35A7FF").drawCircle(100, 100, 10);
+    } else if (instrument == "piano") {
+        circle.graphics.beginFill("#F8C537").drawCircle(100, 100, 10);
+    } else if (instrument == "viola") {
+        circle.graphics.beginFill("#662C91").drawCircle(100, 100, 10);
+    } else if (instrument == "marimba") {
+        circle.graphics.beginFill("#20FC8F").drawCircle(100, 100, 10);
+    } else {
+        circle.graphics.beginFill("#6D466B").drawCircle(100, 100, 10);
+    }
     circle.alpha = 0;
     circle.regX = 100;
     circle.regY = 100;
@@ -101,9 +121,9 @@ function createSoundCircle(x, y) {
       .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
 }
 
-function makeNote(path, destination, y) {
-    playSample(path, destination);
-    createCircle(App.x(), y);
+function makeNote(sound, destination, y) {
+    playSample(sound.url, destination);
+    createCircle(App.x(), y, sound.instrument);
 }
 
 function initialize() {
@@ -124,6 +144,7 @@ function initialize() {
 
         App.soundObjs[i].sound = App.sounds[i];
         App.soundObjs[i].url = App.sounds[i].src;
+        App.soundObjs[i].instrument = App.sounds[i].className;
 
         var offset = 10000;
         if (i % 2 != 0) {
@@ -148,7 +169,7 @@ function initialize() {
                 var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
 
                 var response = setInterval(function (yCoord) {
-                  makeNote(App.soundObjs[i].url, App.convolver, yCoord());
+                  makeNote(App.soundObjs[i], App.convolver, yCoord());
                 }.bind(this, yCoord), App.soundObjs[i].delay);
                 App.loops.push(response);
             })(i);
@@ -186,5 +207,5 @@ $(document).ready(function() {
     //   createSoundCircle(evt.pageX, evt.pageY);
     // }, false);
 
-    $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y) });
+    $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y, App.soundObjs[0].instrument) });
 });

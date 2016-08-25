@@ -26,18 +26,19 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
       yCoord = (i) -> (App.canvasH * i / App.sounds.length - 1)
 
       for sound, i in App.sounds
+        App.soundObjs[i] = sound
         offset = 10000;
         if (i % 2 != 0)
           offset += 5000
           if (i > 5)
             offset += 2000
 
-        urls[i] = sound.src
-        delays[i] = 3000 * i + offset
+        App.soundObjs[i].url = sound.src
+        App.soundObjs[i].delay = 3000 * i + offset
 
-        playThing = (i, yCoord) -> makeNote(urls[i], App.convolver, yCoord)
+        playThing = (i, yCoord) -> makeNote(App.soundObjs[i], App.convolver, yCoord)
 
-        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), delays[i] ) )(i)
+        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
       console.log("key changed", App.loops)
     ), 30000

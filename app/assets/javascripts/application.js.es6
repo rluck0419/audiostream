@@ -164,15 +164,17 @@ function initialize() {
         App.convolver.buffer = convolverBuffer;
         App.convolver.connect(App.audioContext.destination);
 
-        for (var i = 0; i < App.soundObjs.length - 1; i++) {
-            ( function (i) {
-                var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
+        if ($(".signin").length) {
+            for (var i = 0; i < App.soundObjs.length - 1; i++) {
+                ( function (i) {
+                    var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
 
-                var response = setInterval(function (yCoord) {
-                  makeNote(App.soundObjs[i], App.convolver, yCoord());
-                }.bind(this, yCoord), App.soundObjs[i].delay);
-                App.loops.push(response);
-            })(i);
+                    var response = setInterval(function (yCoord) {
+                      makeNote(App.soundObjs[i], App.convolver, yCoord());
+                    }.bind(this, yCoord), App.soundObjs[i].delay);
+                    App.loops.push(response);
+                })(i);
+            }
         }
     });
 }

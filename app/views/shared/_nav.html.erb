@@ -9,7 +9,7 @@
         <li><%= link_to "Profile", user_path(current_user) %></li>
         <li><%= link_to "Sign Out", sessions_sign_out_path, method: :delete %></li>
       <% else %>
-        <li><%= link_to "Sign In", sessions_sign_in_path %></li>
+        <li><%= link_to "Sign In", sessions_sign_in_path, class: "signin" %></li>
         <li><%= link_to "Sign Up", new_user_path %></li>
       <% end %>
     </ul>

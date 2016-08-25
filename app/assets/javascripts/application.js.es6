@@ -181,9 +181,10 @@ $(document).ready(function() {
         App.mousePos = getMousePos(App.canvas, evt);
     }, false);
 
-    App.canvas.addEventListener('touchstart', function () {
-      createSoundCircle(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
-    }, false);
+    // touch-based event handler for mobile - not quite working yet ******
+    // App.canvas.addEventListener('touchstart', function (evt) {
+    //   createSoundCircle(evt.pageX, evt.pageY);
+    // }, false);
 
     $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y) });
 });

@@ -88,7 +88,7 @@ function createSoundCircle(x, y) {
     circle.regY = 100;
     circle.x = x;
     circle.y = y;
-    var soundIndex = App.sounds.length - 2 - Math.floor(y * (App.sounds.length - 1) / App.canvasH);
+    var soundIndex = Math.floor(y * (App.sounds.length - 1) / App.canvasH);
     console.log("sound index", soundIndex);
     console.log("sound array", App.sounds);
     console.log("sound at index in the array", App.sounds[soundIndex]);

@@ -4,6 +4,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
     setInterval @change.bind(@), 30000
 
   received: (data) ->
+    $("audio").remove();
     setTimeout ( ->
       for l in App.loops
         l
@@ -17,12 +18,12 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         audioElement.setAttribute('src', n.upload_url)
         $("body").append(audioElement)
 
-      sounds = document.getElementsByTagName("audio");
+      App.sounds = document.getElementsByTagName("audio");
 
       urls = []
       delays = []
       responses = []
-      for sound, i in sounds
+      for sound, i in App.sounds
         offset = 10000;
         if (i % 2 != 0)
           offset += 5000
@@ -32,7 +33,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         urls[i] = sound.src
         delays[i] = 3000 * i + offset
 
-        playThing = (i) -> playSample(urls[i], App.convolver)
+        playThing = (i) -> makeNote(urls[i], App.convolver)
 
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i), delays[i] ) )(i)
         App.loops.push(responses[i])

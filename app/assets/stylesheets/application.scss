@@ -18,6 +18,14 @@ $primary-color: #282828 !default;
 $secondary-color: #181818;
 @import "materialize";
 
+html,
 body {
   background: white;
+  height: 100%;
+  width: 100%;
+}
+
+#visuals {
+  //debug
+  outline: 1px solid red;
 }

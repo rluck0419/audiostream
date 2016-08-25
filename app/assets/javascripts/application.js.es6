@@ -33,8 +33,13 @@ function playSample(path, destination) {
     });
 }
 
+function makeNote(path, destination, y) {
+    playSample(path, destination);
+    createCircle(App.x(), y);
+}
+
 function initialize() {
-    var sounds = document.getElementsByTagName("audio");
+    App.sounds = document.getElementsByTagName("audio");
     App.soundObjs = [];
     App.loops = [];
     App.audioContext = new AudioContext();
@@ -44,11 +49,12 @@ function initialize() {
     App.key = $(".key");
 
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
-    for (var i = 0; i < sounds.length - 1; i++) {
+    for (var i = 0; i < App.sounds.length - 2; i++) {
+        console.log(App.sounds[App.sounds.length -1]);
         App.soundObjs[i] = new Object();
 
-        App.soundObjs[i].sound = sounds[i];
-        App.soundObjs[i].url = sounds[i].src;
+        App.soundObjs[i].sound = App.sounds[i];
+        App.soundObjs[i].url = App.sounds[i].src;
 
         var offset = 10000;
         if (i % 2 != 0) {
@@ -61,23 +67,26 @@ function initialize() {
         console.log(App.soundObjs[i].delay);
     }
 
-    var reverb = sounds[sounds.length - 1].src;
+    var reverb = App.sounds[App.sounds.length - 1].src;
     fetchSample(reverb).then(convolverBuffer => {
 
         App.convolver = App.audioContext.createConvolver();
         App.convolver.buffer = convolverBuffer;
         App.convolver.connect(App.audioContext.destination);
 
-        // for (var i = 0; i < App.soundObjs.length - 1; i++) {
-        //     ( function (i) {
-        //         var response = setInterval( function () { playSample(App.soundObjs[i].url, App.convolver) }, App.soundObjs[i].delay);
-        //         App.loops.push(response);
-        //     })(i);
-        // }
+        for (var i = 0; i < App.soundObjs.length - 1; i++) {
+            ( function (i) {
+                var yCoord = function() { return App.canvasH - (App.canvasH * i / App.sounds.length - 1); };
+                console.log(yCoord());
+
+                var response = setInterval(function (yCoord) {
+                  makeNote(App.soundObjs[i].url, App.convolver, yCoord());
+                }.bind(this, yCoord), App.soundObjs[i].delay);
+                App.loops.push(response);
+            })(i);
+        }
     });
     // console.log(App.loops);
-    $("audio").remove();
-
     // document.getElementById('pauseButton').onclick = function() {
     //     var sounds = document.getElementsByTagName('audio');
     //     if (paused == false) {
@@ -95,15 +104,14 @@ function initialize() {
 }
 
 function startVisuals() {
-    var canvas = document.getElementById("visuals");
-    canvas.width = document.body.clientWidth; //document.width is obsolete
-    canvas.height = document.body.clientHeight; //document.height is obsolete
-    var canvasW = canvas.width;
-    var canvasH = canvas.height;
+    App.canvas = document.getElementById("visuals");
+    App.canvas.width = document.body.clientWidth; //document.width is obsolete
+    App.canvas.height = document.body.clientHeight; //document.height is obsolete
+    App.canvasW = App.canvas.width;
+    App.canvasH = App.canvas.height;
     App.stage = new createjs.Stage("visuals");
-    var x = Math.random() * 200 + 100;
-    var y = Math.random() * 200 + 100;
-    createCircle(x, y);
+    App.x = function () { return Math.random() * (App.canvasW - 100) + 100; };
+    App.y = function () { return Math.random() * (App.canvasH - 100) + 100; };
     createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", App.stage);
 }
@@ -117,6 +125,7 @@ function createCircle(x, y) {
     circle.regY = 100;
     circle.x = x;
     circle.y = y;
+    console.log(circle);
     App.stage.addChild(circle);
 
     createjs.Tween.get(circle)
@@ -125,6 +134,33 @@ function createCircle(x, y) {
 
     // createjs.Ticker.setFPS(30);
     // createjs.Ticker.addEventListener("tick", stage);
+}
+
+function createSoundCircle(x, y) {
+    // var stage = new createjs.Stage("visuals");
+    var circle = new createjs.Shape();
+    circle.graphics.beginFill("DeepSkyBlue").drawCircle(100, 100, 10);
+    circle.alpha = 0;
+    circle.regX = 100;
+    circle.regY = 100;
+    circle.x = x;
+    circle.y = y;
+    var soundIndex = App.sounds.length - 2 - Math.floor(y * (App.sounds.length - 1) / App.canvasH);
+    playSample(App.sounds[soundIndex].src, App.convolver);
+
+    App.stage.addChild(circle);
+
+    createjs.Tween.get(circle)
+      .to({ scaleX: 4, scaleY: 4, alpha: 1 }, 2000, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
+}
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
 }
 
 $(document).ready(function() {
@@ -146,9 +182,11 @@ $(document).ready(function() {
 
     startVisuals();
 
-    var x = Math.random() * 200 + 100;
-    var y = Math.random() * 200 + 100;
+    App.canvas.addEventListener('mousemove', function(evt) {
+        App.mousePos = getMousePos(App.canvas, evt);
+    }, false);
 
-    $("#visuals").on("click", function () { createCircle(x, y) });
+    $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y) });
+
     initialize();
 });

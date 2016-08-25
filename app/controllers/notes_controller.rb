@@ -36,7 +36,7 @@ class NotesController < ApplicationController
         output_notes << note
       end
     end
-    render locals: { notes: output_notes, reverb: reverb, users: users, key: $_key }
+    render locals: { instrument: instrument, notes: output_notes, reverb: reverb, users: users, key: $_key }
   end
 
   def new

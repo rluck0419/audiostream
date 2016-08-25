@@ -62,3 +62,7 @@ gem 'materialize-sass'
 gem 'rails-erd'
 # es6 for web-audio-based js functions
 gem 'sprockets-es6'
+# fetch gem for js es6 fetch
+gem 'rails-assets-fetch', source: 'https://rails-assets.org'
+# promise gem for js es6 promise
+gem 'rails-assets-es6-promise', source: 'https://rails-assets.org'

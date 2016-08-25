@@ -4,7 +4,6 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
     setInterval @change.bind(@), 30000
 
   received: (data) ->
-    $("audio").remove();
     setTimeout ( ->
       for l in App.loops
         l
@@ -13,16 +12,19 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
       App.key = data["key"]
       console.log(App.key)
 
+      $("audio").remove();
       for n in data["notes"]
         audioElement = document.createElement('audio')
         audioElement.setAttribute('src', n.upload_url)
         $("body").append(audioElement)
 
-      App.sounds = document.getElementsByTagName("audio");
-
+      App.sounds = [].slice.call(document.getElementsByTagName("audio"))
+      reverb = App.sounds.pop()
       urls = []
       delays = []
       responses = []
+      yCoord = (i) -> App.canvasH - (App.canvasH * i / App.sounds.length - 1)
+
       for sound, i in App.sounds
         offset = 10000;
         if (i % 2 != 0)
@@ -33,13 +35,11 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         urls[i] = sound.src
         delays[i] = 3000 * i + offset
 
-        playThing = (i) -> makeNote(urls[i], App.convolver)
+        playThing = (i, yCoord) -> makeNote(urls[i], App.convolver, yCoord)
 
-        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i), delays[i] ) )(i)
+        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), delays[i] ) )(i)
         App.loops.push(responses[i])
       console.log("key changed", App.loops)
-      # `startLoop(sound, delay)`
-      $("audio").remove()
     ), 30000
 
   change: ->

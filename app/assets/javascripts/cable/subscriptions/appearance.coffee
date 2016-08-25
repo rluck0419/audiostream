@@ -14,7 +14,6 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     @uninstall()
 
   received: (data) ->
-    $("audio").remove();
     console.log("received:" , data)
     class_name = ".user" + data["user_id"]
     if data["type"] == "join"
@@ -26,11 +25,15 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         audioElement.setAttribute('src', n.upload_url)
         $("body").append(audioElement)
 
-      App.sounds = document.getElementsByTagName("audio");
+      if App.sounds.length < 1
+        App.sounds = [].slice.call(document.getElementsByTagName("audio"))
 
+      reverb = App.sounds.pop()
       urls = []
       delays = []
       responses = []
+      yCoord = (i) -> App.canvasH - (App.canvasH * i / App.sounds.length - 1)
+
       for sound, i in App.sounds
         offset = 10000;
         if (i % 2 != 0)
@@ -41,13 +44,12 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         urls[i] = sound.src
         delays[i] = 3000 * i + offset
 
-        playThing = (i) -> makeNote(urls[i], App.convolver)
+        playThing = (i, yCoord) -> makeNote(urls[i], App.convolver, yCoord)
 
-        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i), delays[i] ) )(i)
+        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), delays[i] ) )(i)
         App.loops.push(responses[i])
       console.log(App.loops)
 
-      $("audio").remove()
     $(class_name).remove() if data["type"] == "leave"
 
   appear: ->

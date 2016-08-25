@@ -1,5 +1,5 @@
 <% notes.each do |note| %>
-  <%= audio_tag note.upload.url %>
+  <%= audio_tag note.upload.url, class: instrument.name %>
   <%= note.name %>
 <% end %>
 

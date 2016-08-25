@@ -32,7 +32,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
       urls = []
       delays = []
       responses = []
-      yCoord = (i) -> App.canvasH - (App.canvasH * i / App.sounds.length - 1)
+      yCoord = (i) -> (App.canvasH * i / App.sounds.length - 1)
 
       for sound, i in App.sounds
         offset = 10000;

@@ -145,7 +145,7 @@ function initialize() {
 
         for (var i = 0; i < App.soundObjs.length - 1; i++) {
             ( function (i) {
-                var yCoord = function() { return App.canvasH - (App.canvasH * i / App.sounds.length - 1); };
+                var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
 
                 var response = setInterval(function (yCoord) {
                   makeNote(App.soundObjs[i].url, App.convolver, yCoord());

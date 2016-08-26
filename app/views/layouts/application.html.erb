@@ -6,10 +6,11 @@
     <%= action_cable_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <%= javascript_include_tag 'https://code.createjs.com/easeljs-0.8.2.min.js', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'https://code.createjs.com/tweenjs-0.6.2.min.js', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>App.user = <%= current_user.to_json.html_safe if current_user %></script>
   </head>
 
   <body>

@@ -65,6 +65,6 @@ class User < ApplicationRecord
   end
 
   def as_json(_ = nil)
-    super(include: :instruments)
+    super(include: :instruments, except: :password_digest)
   end
 end

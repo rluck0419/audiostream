@@ -52,7 +52,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
           if (i > 5)
             offset += 2000
 
-        console.log(data["notes"][i].instrument.name)    
+        console.log(data["notes"][i].instrument.name)
         App.soundObjs[i].instrument = data["notes"][i].instrument.name
         App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
@@ -63,7 +63,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
         last = i
-      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, data["user"].instruments[0].name))
+      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, App.user.instruments[0].name))
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822163141) do
+ActiveRecord::Schema.define(version: 20160826194007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 20160822163141) do
     t.integer  "intervals",  limit: 2, default: [],              array: true
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+  end
+
+  create_table "current_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_current_users_on_user_id", using: :btree
   end
 
   create_table "instruments", force: :cascade do |t|
@@ -121,6 +128,7 @@ ActiveRecord::Schema.define(version: 20160822163141) do
     t.string   "appearing_on"
   end
 
+  add_foreign_key "current_users", "users"
   add_foreign_key "notes", "instruments"
   add_foreign_key "scale_notes", "keys"
   add_foreign_key "scale_notes", "notes"

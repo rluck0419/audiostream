@@ -13,32 +13,35 @@ class User < ApplicationRecord
   has_many :reverbs, through: :user_reverbs
 
   def appear(datetime = {})
+    CurrentUser.create!(user: self)
+
     self.appearing_on = datetime[:on] || Time.zone.now
     self.save
     $_key = Key.all.sample if $_key.nil?
     $_scale = self.scales.sample if $_scale.nil?
-    $_current_instruments ||= []
-    $_current_users ||= []
-    $_current_users << self unless $_current_users.include?(self)
+
+
+
+    users = CurrentUser.all
+    instruments = users.map(&:user).flat_map(&:instruments)
 
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
-    instrument = self.instruments.sample
-    $_current_instruments << instrument
-    all_notes = Note.where(instrument: $_current_instruments)
+
+    all_notes = Note.where(instrument: instruments)
     output_notes = []
 
-    all_notes.each do |note|
-      if notes.include?(note.name)
-        output_notes << note
-      end
-    end
-    notes = output_notes
-    UserAppearJob.perform_now(instrument, self, self.appearing_on, notes)
+    output_notes = all_notes.map do |note|
+      note if notes.include?(note.name)
+    end.compact
+
+    UserAppearJob.perform_now(self, self.appearing_on, output_notes)
   end
 
   def disappear
     self.appearing_on = nil
     self.save
+
+    CurrentUser.find_by(user: self).try(:destroy)
     UserDisappearJob.perform_now(self)
   end
 

@@ -18,6 +18,16 @@
 //= require turbolinks
 //= require_tree .
 
+function shuffle(arr) {
+    var n, elem, idx;
+    for (idx = arr.length; idx; idx--) {
+        n = Math.floor(Math.random() * idx);
+        elem = arr[idx - 1];
+        arr[idx - 1] = arr[n];
+        arr[n] - elem;
+    }
+}
+
 function fetchSample(path) {
   return fetch(path)
     .then(response => response.arrayBuffer())

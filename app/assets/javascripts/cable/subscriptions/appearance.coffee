@@ -31,7 +31,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         audioElement = document.createElement('audio')
         audioElement.setAttribute('src', n.upload_url)
         audioElement.setAttribute('user', data["user_email"])
-        audioElement.setAttribute('instrument', data["instrument"].name)
+        audioElement.setAttribute('instrument', n.instrument.name)
         $("body").append(audioElement)
 
       App.sounds = [].slice.call(document.getElementsByTagName("audio"))
@@ -42,6 +42,8 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
       responses = []
       yCoord = (i) -> (App.canvasH * i / App.sounds.length - 1)
 
+      shuffle(App.sounds) # Shuffles array in-place
+
       for sound, i in App.sounds
         App.soundObjs[i] = sound
         offset = 10000;
@@ -50,7 +52,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
           if (i > 5)
             offset += 2000
 
-        App.soundObjs[i].instrument = data["instrument"].name
+        App.soundObjs[i].instrument = data["notes"][i].instrument.name
         App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
         App.soundObjs[i].delay = 3000 * i + offset

@@ -20,12 +20,13 @@ $secondary-color: #181818;
 
 html,
 body {
-  background: white;
+  background: black;
+  color: white;
   height: 100%;
   width: 100%;
 }
 
 #visuals {
   //debug
-  outline: 1px solid red;
+  // outline: 1px solid red;
 }

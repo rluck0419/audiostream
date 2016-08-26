@@ -23,9 +23,16 @@ class ScalesController < ApplicationController
     if user_logged_in?
       favs = all_notes.map{ |n| n if current_user.instruments.include?(n.instrument) }
       rest = all_notes.map{ |n| n unless current_user.instruments.include?(n.instrument) }
+      unless current_user.instruments.empty?
+        instrument = current_user.instruments.first
+      end
     else
       favs = all_notes.map{ |n| n if n.instrument == Instrument.first }
       rest = all_notes.map{ |n| n unless n.instrument == Instrument.first }
+    end
+
+    unless instrument
+      instrument = Instrument.first
     end
 
     favs = favs.compact
@@ -51,8 +58,9 @@ class ScalesController < ApplicationController
       popped_note = final_notes.pop
       final_notes = [popped_note, final_notes].flatten
     end
+    users = User.where.not(appearing_on: nil)
 
-    render locals: { notes: final_notes, reverb: reverb, key: key.name}
+    render locals: { instrument: instrument, users: users, notes: final_notes, reverb: reverb, key: key}
     # render locals: { piano_notes: piano_notes, harp_notes: harp_notes, marimba_notes: marimba_notes, squarewave_notes: squarewave_notes, reverb: reverb }
   end
 end

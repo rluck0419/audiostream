@@ -1,20 +1,17 @@
-<div class="center">Notes:</div>
-<div class="center">
-  <% notes.each do |note| %>
-    <% unless note.instrument.category == "synthesizer" %>
-      <%= audio_tag note.upload.url %>
-    <% end %>
-    <%= "#{note.name}#{note.octave}" %>
+<% notes.each do |note| %>
+  <%= audio_tag note.upload.url, class: instrument.name %>
+  <%= note.name %>
+<% end %>
+
+<br>Key:<div class="key"><%= key.name %></div>
+
+<%= audio_tag reverb.upload.url %>
+
+<div class="users">Users:</div>
+<% unless users.empty? %>
+  <% users.each do |user| %>
+    <div class="user<%= user.id %>"><%= user.email %></div>
   <% end %>
-</div>
+<% end %>
 
-<div class="center">Key: <%= key %></div>
-
-
-
-<div class="center">Reverb:
-  <%= audio_tag reverb.upload.url %>
-  <%= reverb.name %>
-</div>
-
-<div class="center"><input id="pauseButton" type="button" value="Pause" class="btn"/></div>
+<canvas id="visuals" width="150" height="150"></canvas>

@@ -87,8 +87,8 @@ function createCircle(x, y, instrument) {
     App.stage.addChild(circle);
 
     createjs.Tween.get(circle)
-      .to({ scaleX: 4, scaleY: 4, alpha: 1 }, 2000, createjs.Ease.getPowInOut(1))
-      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 5, scaleY: 5, alpha: 1 }, 100, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
 }
 
 function createSoundCircle(x, y, instrument) {
@@ -116,8 +116,8 @@ function createSoundCircle(x, y, instrument) {
     App.stage.addChild(circle);
 
     createjs.Tween.get(circle)
-      .to({ scaleX: 4, scaleY: 4, alpha: 1 }, 2000, createjs.Ease.getPowInOut(1))
-      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 1000, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 5, scaleY: 5, alpha: 1 }, 100, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
 }
 
 function makeNote(sound, destination, y) {
@@ -177,7 +177,7 @@ function initialize() {
                   makeNote(App.soundObjs[i], App.convolver, yCoord());
                 }.bind(this, yCoord), App.soundObjs[i].delay);
                 App.loops.push(response);
-                console.log("loop pushed in!", repsonses);                
+                console.log("loop pushed in!", repsonses);
             })(i);
         }
         $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y, "piano") });

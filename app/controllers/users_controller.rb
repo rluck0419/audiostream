@@ -60,7 +60,7 @@ class UsersController < ApplicationController
       end
 
       if user.update(user_params)
-        redirect_to user
+        redirect_to root_path
       else
         render :edit
       end

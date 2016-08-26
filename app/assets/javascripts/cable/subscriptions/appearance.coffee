@@ -14,6 +14,10 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     @uninstall()
 
   received: (data) ->
+    for l in App.loops
+      l
+      clearInterval(l)
+
     console.log("received:" , data)
     class_name = ".user" + data["user_id"]
     $("audio").remove();
@@ -25,11 +29,11 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
       for n in data["notes"]
         audioElement = document.createElement('audio')
         audioElement.setAttribute('src', n.upload_url)
+        audioElement.setAttribute('user', data["user_email"])
+        audioElement.setAttribute('instrument', data["instrument"].name)
         $("body").append(audioElement)
 
-      console.log("length of sounds", App.sounds.length)
-      if App.sounds.length < 1
-        App.sounds = [].slice.call(document.getElementsByTagName("audio"))
+      App.sounds = [].slice.call(document.getElementsByTagName("audio"))
 
       reverb = App.sounds.pop()
       urls = []
@@ -45,6 +49,8 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
           if (i > 5)
             offset += 2000
 
+        App.soundObjs[i].instrument = data["instrument"]
+        App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
         App.soundObjs[i].delay = 3000 * i + offset
 
@@ -52,7 +58,9 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
 
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
-      console.log(App.loops)
+        last = i
+      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, App.soundObjs[last].instrument.name))
+
 
     $(class_name).remove() if data["type"] == "leave"
 

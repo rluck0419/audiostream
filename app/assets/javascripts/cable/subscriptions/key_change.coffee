@@ -16,6 +16,8 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
       for n in data["notes"]
         audioElement = document.createElement('audio')
         audioElement.setAttribute('src', n.upload_url)
+        audioElement.setAttribute('user', data["user_email"])
+        audioElement.setAttribute('instrument', data["instrument"].name)
         $("body").append(audioElement)
 
       App.sounds = [].slice.call(document.getElementsByTagName("audio"))
@@ -33,6 +35,8 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
           if (i > 5)
             offset += 2000
 
+        App.soundObjs[i].instrument = data["instrument"]
+        App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
         App.soundObjs[i].delay = 3000 * i + offset
 
@@ -40,7 +44,6 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
 
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
-      console.log("key changed", App.loops)
     ), 30000
 
   change: ->

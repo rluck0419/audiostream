@@ -29,7 +29,7 @@ class User < ApplicationRecord
       end
     end
     notes = output_notes
-    UserAppearJob.perform_now(self, self.appearing_on, notes)
+    UserAppearJob.perform_now(instrument, self, self.appearing_on, notes)
   end
 
   def disappear
@@ -52,7 +52,7 @@ class User < ApplicationRecord
       end
     end
     notes = output_notes
-    ChangeKeyJob.perform_now($_key, $_scale, notes)
+    ChangeKeyJob.perform_now(instrument, self, $_key, $_scale, notes)
   end
 
   def away

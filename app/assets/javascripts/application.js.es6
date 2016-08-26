@@ -37,21 +37,23 @@ function playSample(path, destination) {
         }
 
         bufferSource.start();
-        App.gainNode.gain.value = 0.2;
+        App.gainNode.gain.value = 0.1;
     });
 }
 
 function startVisuals() {
     App.canvas = document.getElementById("visuals");
-    App.canvas.width = document.body.clientWidth; //document.width is obsolete
-    App.canvas.height = document.body.clientHeight; //document.height is obsolete
-    App.canvasW = App.canvas.width;
-    App.canvasH = App.canvas.height;
-    App.stage = new createjs.Stage("visuals");
-    App.x = function () { return Math.random() * (App.canvasW - 100) + 100; };
-    App.y = function () { return Math.random() * (App.canvasH - 100) + 100; };
-    createjs.Ticker.setFPS(30);
-    createjs.Ticker.addEventListener("tick", App.stage);
+    if (App.canvas !== null) {
+        App.canvas.width = document.body.clientWidth; //document.width is obsolete
+        App.canvas.height = document.body.clientHeight; //document.height is obsolete
+        App.canvasW = App.canvas.width;
+        App.canvasH = App.canvas.height;
+        App.stage = new createjs.Stage("visuals");
+        App.x = function () { return Math.random() * (App.canvasW - 100) + 100; };
+        App.y = function () { return Math.random() * (App.canvasH - 100) + 100; };
+        createjs.Ticker.setFPS(30);
+        createjs.Ticker.addEventListener("tick", App.stage);
+    }
 }
 
 function getMousePos(canvas, evt) {
@@ -101,7 +103,7 @@ function createSoundCircle(x, y, instrument) {
     } else if (instrument == "marimba") {
         circle.graphics.beginFill("#20FC8F").drawCircle(100, 100, 10);
     } else {
-        circle.graphics.beginFill("#6D466B").drawCircle(100, 100, 10);
+        circle.graphics.beginFill(instrument).drawCircle(100, 100, 10);
     }
     circle.alpha = 0;
     circle.regX = 100;
@@ -109,9 +111,6 @@ function createSoundCircle(x, y, instrument) {
     circle.x = x;
     circle.y = y;
     var soundIndex = Math.floor(y * (App.sounds.length - 1) / App.canvasH);
-    console.log("sound index", soundIndex);
-    console.log("sound array", App.sounds);
-    console.log("sound at index in the array", App.sounds[soundIndex]);
     playSample(App.sounds[soundIndex].src, App.convolver);
 
     App.stage.addChild(circle);
@@ -122,12 +121,16 @@ function createSoundCircle(x, y, instrument) {
 }
 
 function makeNote(sound, destination, y) {
+    if (sound.instrument.name.length > 0) {
+      createCircle(App.x(), y, sound.instrument.name)
+    } else {
+      createCircle(App.x(), y, sound.className);
+    }
     playSample(sound.url, destination);
-    createCircle(App.x(), y, sound.instrument);
+    console.log(sound)
 }
 
 function initialize() {
-    App.sounds = [].slice.call(document.getElementsByTagName("audio"));
     App.soundObjs = [];
     App.loops = [];
 
@@ -138,45 +141,47 @@ function initialize() {
     App.restartSession = false;
     App.key = $(".key");
 
-    // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
-    for (var i = 0; i < App.sounds.length - 2; i++) {
-        App.soundObjs[i] = new Object();
-
-        App.soundObjs[i].sound = App.sounds[i];
-        App.soundObjs[i].url = App.sounds[i].src;
-        App.soundObjs[i].instrument = App.sounds[i].className;
-
-        var offset = 10000;
-        if (i % 2 != 0) {
-            if (i > 5) {
-              offset += 5000
-            }
-            offset += 2000
-        }
-        App.soundObjs[i].delay = 5000 * i + offset;
-        console.log(App.soundObjs[i].delay);
-    }
-
+    App.sounds = [].slice.call($("audio"));
     var reverb = App.sounds[App.sounds.length - 1].src;
-    fetchSample(reverb).then(convolverBuffer => {
 
+    fetchSample(reverb).then(convolverBuffer => {
         App.convolver = App.audioContext.createConvolver();
         App.convolver.buffer = convolverBuffer;
         App.convolver.connect(App.audioContext.destination);
-
-        if ($(".signin").length) {
-            for (var i = 0; i < App.soundObjs.length - 1; i++) {
-                ( function (i) {
-                    var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
-
-                    var response = setInterval(function (yCoord) {
-                      makeNote(App.soundObjs[i], App.convolver, yCoord());
-                    }.bind(this, yCoord), App.soundObjs[i].delay);
-                    App.loops.push(response);
-                })(i);
-            }
-        }
     });
+
+    if ($(".signin") == undefined) {
+    // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
+        for (var i = 0; i < App.sounds.length - 2; i++) {
+            App.soundObjs[i] = new Object();
+
+            App.soundObjs[i].sound = App.sounds[i];
+            App.soundObjs[i].url = App.sounds[i].src;
+            App.soundObjs[i].instrument = App.sounds[i].className;
+
+            var offset = 10000;
+            if (i % 2 != 0) {
+                if (i > 5) {
+                  offset += 5000
+                }
+                offset += 2000
+            }
+            App.soundObjs[i].delay = 5000 * i + offset;
+            console.log(App.soundObjs[i].delay);
+        }
+        for (var i = 0; i < App.soundObjs.length - 1; i++) {
+            ( function (i) {
+                var yCoord = function() { return (App.canvasH * i / App.sounds.length - 1); };
+
+                var response = setInterval(function (yCoord) {
+                  makeNote(App.soundObjs[i], App.convolver, yCoord());
+                }.bind(this, yCoord), App.soundObjs[i].delay);
+                App.loops.push(response);
+                console.log("loop pushed in!", repsonses);                
+            })(i);
+        }
+        $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y, "piano") });
+    }
 }
 
 $(document).ready(function() {
@@ -200,14 +205,14 @@ $(document).ready(function() {
     startVisuals();
     initialize();
 
-    App.canvas.addEventListener('mousemove', function(evt) {
-        App.mousePos = getMousePos(App.canvas, evt);
-    }, false);
+    if (App.canvas !== null) {
+        App.canvas.addEventListener('mousemove', function(evt) {
+            App.mousePos = getMousePos(App.canvas, evt);
+        }, false);
+    }
 
     // touch-based event handler for mobile - not quite working yet ******
     // App.canvas.addEventListener('touchstart', function (evt) {
     //   createSoundCircle(evt.pageX, evt.pageY);
     // }, false);
-
-    $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y, App.soundObjs[0].instrument) });
 });

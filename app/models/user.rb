@@ -41,28 +41,30 @@ class User < ApplicationRecord
     self.appearing_on = nil
     self.save
 
-    CurrentUser.find_by(user: self).try(:destroy)
+    CurrentUser.where(user_id: self.id).destroy_all
     UserDisappearJob.perform_now(self)
   end
 
   def key_change
     $_key = Key.all.sample
     $_scale = self.scales.sample
-    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
-    current_instruments = $_current_users.map { |user| user.instruments.sample }
 
-    all_notes = Note.where(instrument: current_instruments)
+    users = CurrentUser.all
+    instruments = users.map(&:user).flat_map(&:instruments)
+
+    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
+
+    all_notes = Note.where(instrument: instruments)
     output_notes = []
 
-    all_notes.each do |note|
-      if notes.include?(note.name)
-        output_notes << note
-      end
-    end
-    notes = output_notes
-    ChangeKeyJob.perform_now(self, $_key, $_scale, notes)
+    output_notes = all_notes.map do |note|
+      note if notes.include?(note.name)
+    end.compact
+
+    ChangeKeyJob.perform_now(self, $_key, $_scale, output_notes)
   end
 
-  def away
+  def as_json(_ = nil)
+    super(include: :instruments)
   end
 end

@@ -88,7 +88,7 @@ function createCircle(x, y, instrument) {
 
     createjs.Tween.get(circle)
       .to({ scaleX: 5, scaleY: 5, alpha: 1 }, 100, createjs.Ease.getPowInOut(1))
-      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 0.1, scaleY: 0.1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
 }
 
 function createSoundCircle(x, y, instrument) {
@@ -117,7 +117,7 @@ function createSoundCircle(x, y, instrument) {
 
     createjs.Tween.get(circle)
       .to({ scaleX: 5, scaleY: 5, alpha: 1 }, 100, createjs.Ease.getPowInOut(1))
-      .to({ scaleX: 1, scaleY: 1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
+      .to({ scaleX: 0.1, scaleY: 0.1, alpha: 0 }, 4000, createjs.Ease.getPowInOut(1))
 }
 
 function makeNote(sound, destination, y) {

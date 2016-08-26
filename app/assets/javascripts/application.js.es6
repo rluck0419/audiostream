@@ -127,7 +127,7 @@ function makeNote(sound, destination, y) {
       createCircle(App.x(), y, sound.className);
     }
     playSample(sound.url, destination);
-    console.log(sound)
+    console.log(sound);
 }
 
 function initialize() {
@@ -152,6 +152,7 @@ function initialize() {
 
     if ($(".signin").length > 0) {
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
+        $(".users").html("");
         for (var i = 0; i < App.sounds.length - 2; i++) {
             App.soundObjs[i] = new Object();
 

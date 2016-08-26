@@ -14,15 +14,16 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     @uninstall()
 
   received: (data) ->
-    for l in App.loops
-      l
-      clearInterval(l)
-
     console.log("received:" , data)
-    class_name = ".user" + data["user_id"]
-    $("audio").remove();
+    App.class_name = ".user" + data["user_id"]
+    console.log("class_name", App.class_name)
+    class_name = App.class_name
+    $("audio").remove()
 
+    if data["type"] == "leave"
+      $(App.class_name).remove()
     if data["type"] == "join"
+      console.log("user's email: ", data["user_email"])
       if not $(class_name).length
         $(".users").append("<div class='user" + data["user_id"] + "'>" + data["user_email"] + "</div>")
 
@@ -59,10 +60,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
         last = i
-      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, App.soundObjs[last].instrument.name))
-
-
-    $(class_name).remove() if data["type"] == "leave"
+      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, App.soundObjs[last].instrument))
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

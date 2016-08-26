@@ -7,11 +7,12 @@
 
 <%= audio_tag reverb.upload.url %>
 
-<div class="users">Users:</div>
-<% unless users.empty? %>
-  <% users.each do |user| %>
-    <div class="user<%= user.id %>"><%= user.email %></div>
+<div class="users">Users:
+  <% unless users.empty? %>
+    <% users.each do |user| %>
+      <div class="user<%= user.id %>"><%= user.email %></div>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
 <canvas id="visuals" width="150" height="150"></canvas>

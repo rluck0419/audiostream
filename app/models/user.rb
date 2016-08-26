@@ -17,10 +17,14 @@ class User < ApplicationRecord
     self.save
     $_key = Key.all.sample if $_key.nil?
     $_scale = self.scales.sample if $_scale.nil?
+    $_current_instruments ||= []
+    $_current_users ||= []
+    $_current_users << self unless $_current_users.include?(self)
 
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
     instrument = self.instruments.sample
-    all_notes = Note.where(instrument: instrument)
+    $_current_instruments << instrument
+    all_notes = Note.where(instrument: $_current_instruments)
     output_notes = []
 
     all_notes.each do |note|
@@ -42,8 +46,9 @@ class User < ApplicationRecord
     $_key = Key.all.sample
     $_scale = self.scales.sample
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
-    instrument = self.instruments.sample
-    all_notes = Note.where(instrument: instrument)
+    current_instruments = $_current_users.map { |user| user.instruments.sample }
+
+    all_notes = Note.where(instrument: current_instruments)
     output_notes = []
 
     all_notes.each do |note|
@@ -52,7 +57,7 @@ class User < ApplicationRecord
       end
     end
     notes = output_notes
-    ChangeKeyJob.perform_now(instrument, self, $_key, $_scale, notes)
+    ChangeKeyJob.perform_now(self, $_key, $_scale, notes)
   end
 
   def away

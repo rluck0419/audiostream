@@ -13,6 +13,6 @@ class Note < ApplicationRecord
   end
 
   def as_json(_ = nil)
-    super(methods: [:upload_url])
+    super(methods: [:upload_url], include: :instrument)
   end
 end

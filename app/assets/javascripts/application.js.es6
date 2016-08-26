@@ -121,8 +121,8 @@ function createSoundCircle(x, y, instrument) {
 }
 
 function makeNote(sound, destination, y) {
-    if (sound.instrument.name.length > 0) {
-      createCircle(App.x(), y, sound.instrument.name)
+    if (sound.instrument.length > 0) {
+      createCircle(App.x(), y, sound.instrument)
     } else {
       createCircle(App.x(), y, sound.className);
     }
@@ -150,7 +150,7 @@ function initialize() {
         App.convolver.connect(App.audioContext.destination);
     });
 
-    if ($(".signin") == undefined) {
+    if ($(".signin").length > 0) {
     // var delayTimes = [1200, 2525, 3300, 4050, 6210, 5150, 8535, 9590]
         for (var i = 0; i < App.sounds.length - 2; i++) {
             App.soundObjs[i] = new Object();
@@ -158,6 +158,7 @@ function initialize() {
             App.soundObjs[i].sound = App.sounds[i];
             App.soundObjs[i].url = App.sounds[i].src;
             App.soundObjs[i].instrument = App.sounds[i].className;
+            console.log(App.soundObjs[i].instrument);
 
             var offset = 10000;
             if (i % 2 != 0) {
@@ -177,7 +178,7 @@ function initialize() {
                   makeNote(App.soundObjs[i], App.convolver, yCoord());
                 }.bind(this, yCoord), App.soundObjs[i].delay);
                 App.loops.push(response);
-                console.log("loop pushed in!", repsonses);
+                // console.log("loop pushed in!", response);
             })(i);
         }
         $("#visuals").on("click", function () { createSoundCircle(App.mousePos.x, App.mousePos.y, "piano") });

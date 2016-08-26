@@ -49,7 +49,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
           if (i > 5)
             offset += 2000
 
-        App.soundObjs[i].instrument = data["instrument"]
+        App.soundObjs[i].instrument = data["instrument"].name
         App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
         App.soundObjs[i].delay = 3000 * i + offset

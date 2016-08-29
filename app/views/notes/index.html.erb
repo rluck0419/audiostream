@@ -20,11 +20,9 @@
 <footer>
   <a class="modal-trigger bottom-right white-text" href="#modal1"><i class="material-icons">info</i></a>
 
-  <% unless users.empty? %>
-    <p class="bottom-left white-text unselectable">
-      <% users.each do |user| %>
-        <data class="user<%= user.id %>"><%= user.email %></data>
-      <% end %>
-    </p>
-  <% end %>
+  <div class="bottom-left white-text unselectable users">
+    <% users.each do |user| %>
+      <span class="user<%= user.id %>"><%= user.email %></span>
+    <% end %>
+  </div>
 </footer>

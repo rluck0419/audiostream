@@ -10,7 +10,7 @@ NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 piano = Instrument.create!(name: "piano", category: "orchestral")
 Instrument.create!(name: "harp", category: "orchestral")
-Instrument.create!(name: "marimba", category: "orchestral")
+marimba = Instrument.create!(name: "marimba", category: "orchestral")
 Instrument.create!(name: "viola", category: "orchestral")
 
 instruments = Instrument.all
@@ -39,7 +39,7 @@ end
 airport = Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
 
 major = Scale.create!(name: "major", degrees: [0,2,4,5,7,9,11])
-Scale.create!(name: "minor", degrees: [0,2,3,5,7,8,10])
+minor = Scale.create!(name: "minor", degrees: [0,2,3,5,7,8,10])
 Scale.create!(name: "penta", degrees: [0,2,5,7,9])
 
 TRIAD_0 = [0,2,4]
@@ -51,11 +51,15 @@ Chord.create!(name: 'triad_6', intervals: [TRIAD_1[0], TRIAD_1[1], TRIAD_1[2]])
 Chord.create!(name: 'triad_64', intervals: [TRIAD_2[0], TRIAD_2[1], TRIAD_2[2]])
 
 user = User.create!(email: "user@example.com", password: "password")
-User.create!(email: "admin@example.com", password: "password")
+user2 = User.create!(email: "admin@example.com", password: "password")
 UserInstrument.create!(user: user, instrument: piano)
+UserInstrument.create!(user: user2, instrument: marimba)
 UserScale.create!(user: user, scale: major)
+UserScale.create(user: user2, scale: minor)
 UserReverb.create!(user: user, reverb: airport)
+UserReverb.create!(user: user2, reverb: airport)
 UserChord.create!(user: user, chord: triad)
+UserChord.create!(user: user2, chord: triad)
 
 keys = Key.all
 scales = Scale.all

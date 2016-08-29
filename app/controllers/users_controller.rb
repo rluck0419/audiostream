@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
+    UserInstrument.create!(user: user, instrument: Instrument.all.first)
     if user.save
       sign_in_new_user(user)
       redirect_to root_path

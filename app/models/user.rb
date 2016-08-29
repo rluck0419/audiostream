@@ -46,7 +46,10 @@ class User < ApplicationRecord
   end
 
   def key_change
-    $_key = Key.all.sample
+    next_key = MusicTheory.next_key($_key.name)
+    binding.pry
+    $_key = Key.where(name: next_key)
+    binding.pry
     $_scale = self.scales.sample
 
     users = CurrentUser.all

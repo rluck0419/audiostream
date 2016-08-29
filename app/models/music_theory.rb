@@ -16,7 +16,6 @@ class MusicTheory < ApplicationRecord
     else
       next_key = CIRCLE_OF_FIFTHS[CIRCLE_OF_FIFTHS.index(key) + 1]
     end
-    binding.pry
     next_key
   end
 end

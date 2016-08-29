@@ -225,6 +225,9 @@ $(document).ready(function() {
         }, false);
     }
 
+
+    $('.modal-trigger').leanModal();
+
     // touch-based event handler for mobile - not quite working yet ******
     // App.canvas.addEventListener('touchstart', function (evt) {
     //   createSoundCircle(evt.pageX, evt.pageY);

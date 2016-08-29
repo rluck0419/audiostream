@@ -55,7 +55,7 @@ function startVisuals() {
     App.canvas = document.getElementById("visuals");
     if (App.canvas !== null) {
         App.canvas.width = document.body.clientWidth; //document.width is obsolete
-        App.canvas.height = document.body.clientHeight; //document.height is obsolete
+        App.canvas.height = document.body.clientHeight - 70; //document.height is obsolete
         App.canvasW = App.canvas.width;
         App.canvasH = App.canvas.height;
         App.stage = new createjs.Stage("visuals");

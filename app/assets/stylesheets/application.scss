@@ -26,7 +26,18 @@ body {
   width: 100%;
 }
 
+nav {
+  height: 64px;
+  line-height: 64px;
+}
+
 #visuals {
   //debug
   // outline: 1px solid red;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

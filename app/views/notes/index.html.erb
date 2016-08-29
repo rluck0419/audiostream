@@ -1,9 +1,6 @@
 <% notes.each do |note| %>
   <%= audio_tag note.upload.url, class: instrument.name %>
-  <%= note.name %>
 <% end %>
-
-<br>Key:<div class="key"><%= key.name %></div>
 
 <%= audio_tag reverb.upload.url %>
 
@@ -15,7 +12,9 @@
   <% end %>
 </div>
 
-<a class="modal-trigger waves-effect waves-light btn" href="#modal1">Modal</a>
+<canvas id="visuals" width="150" height="150"></canvas>
+
+<a class="modal-trigger waves-effect waves-light btn bottom" href="#modal1">info</a>
 
 <div id="modal1" class="modal modal-fixed-footer">
   <div class="modal-content white">
@@ -24,8 +23,6 @@
       The basis for the app comes from... </p>
   </div>
   <div class="modal-footer">
-    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
   </div>
 </div>
-
-<canvas id="visuals" width="150" height="150"></canvas>

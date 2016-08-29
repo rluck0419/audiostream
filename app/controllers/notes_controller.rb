@@ -27,7 +27,8 @@ class NotesController < ApplicationController
     notes = all_notes
     $_key = Key.all.sample if $_key.nil?
     output_notes = []
-    users = User.where.not(appearing_on: nil)
+
+    users = CurrentUser.all.map(&:user)
 
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
 

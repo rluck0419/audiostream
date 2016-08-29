@@ -48,7 +48,6 @@ class User < ApplicationRecord
   def key_change
     next_key = MusicTheory.next_key($_key.name)
     $_key = Key.find_by(name: next_key)
-    binding.pry
     $_scale = self.scales.sample
 
     users = CurrentUser.all

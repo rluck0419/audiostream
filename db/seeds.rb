@@ -12,10 +12,6 @@ piano = Instrument.create!(name: "piano", category: "orchestral")
 Instrument.create!(name: "harp", category: "orchestral")
 Instrument.create!(name: "marimba", category: "orchestral")
 Instrument.create!(name: "viola", category: "orchestral")
-Instrument.create!(name: "squarewave", category: "synthesizer")
-Instrument.create!(name: "softwave", category: "synthesizer")
-Instrument.create!(name: "sawwave", category: "synthesizer")
-Instrument.create!(name: "voxwave", category: "synthesizer")
 
 instruments = Instrument.all
 

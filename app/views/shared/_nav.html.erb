@@ -5,7 +5,6 @@
       <i class="material-icons">speaker</i>
     <% end %>
     <ul id="nav-mobile" class="right">
-      <li><a class="dropdown-button" href="javascript:void(0)" data-activates="dropdown1">Current Users<i class="material-icons right">arrow_drop_down</i></a></li>
       <% if user_logged_in? %>
         <li><%= link_to "Profile", user_path(current_user) %></li>
         <li><%= link_to "Sign Out", sessions_sign_out_path, method: :delete %></li>

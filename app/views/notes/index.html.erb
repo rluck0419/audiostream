@@ -4,23 +4,10 @@
 
 <%= audio_tag reverb.upload.url %>
 
-<% content_for :user_dropdown do %>
-  <ul id="dropdown1" class="dropdown-content">
-    <% unless users.empty? %>
-      <% users.each do |user| %>
-        <li class="user<%= user.id %>"><%= user.email %></li>
-        <li class="divider"></li>
-      <% end %>
-    <% end %>
-  </ul>
-<% end %>
-
 <canvas id="visuals" width="150" height="150"></canvas>
 
-<a class="modal-trigger bottom" href="#modal1"><i class="material-icons">info</i></a>
-
 <div id="modal1" class="modal modal-fixed-footer">
-  <div class="modal-content white">
+  <div class="modal-content black-text">
     <h4>About Soundhouse</h4>
     <p>Soundhouse is an app for procedurally-generated ambient music.
       The basis for the app comes from... </p>
@@ -29,3 +16,15 @@
     <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
   </div>
 </div>
+
+<footer>
+  <a class="modal-trigger bottom-right white-text" href="#modal1"><i class="material-icons">info</i></a>
+
+  <% unless users.empty? %>
+    <p class="bottom-left white-text unselectable">
+      <% users.each do |user| %>
+        <data class="user<%= user.id %>"><%= user.email %></data>
+      <% end %>
+    </p>
+  <% end %>
+</footer>

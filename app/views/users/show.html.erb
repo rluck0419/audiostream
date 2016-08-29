@@ -1,4 +1,4 @@
-<div class="prefs white">
+<div class="prefs">
   <p>
     Favorite Instrument(s):
     <% user.instruments.each do |i| %>
@@ -23,5 +23,9 @@
     <% user.reverbs.each do |r| %>
       <%= r.name %>
     <% end %>
+  </p>
+
+  <p>
+    <%= link_to "Edit", edit_user_path, class: "btn" %>
   </p>
 </div>

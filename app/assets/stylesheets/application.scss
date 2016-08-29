@@ -20,15 +20,15 @@ $secondary-color: #181818;
 
 html,
 body {
-  background: white;
-  color: black;
+  background: black;
+  color: white;
   height: 100%;
   width: 100%;
 }
 
 nav {
-  height: 64px;
-  line-height: 64px;
+  height: 50px;
+  line-height: 50px;
 }
 
 #visuals {
@@ -36,8 +36,29 @@ nav {
   // outline: 1px solid red;
 }
 
-.bottom {
-  position: absolute;
+.bottom-right {
+  float: right;
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+}
+
+.bottom-left {
+  float: left;
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+  color: white;
+}
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+footer {
+  position: fixed;
   bottom: 0;
-  right: 0;
+  width: 100%;
 }

@@ -37,6 +37,11 @@ class NotesController < ApplicationController
         output_notes << note
       end
     end
+    if current_user
+      @user = current_user
+    else
+      @user = User.new
+    end
     render locals: { instrument: instrument, notes: output_notes, reverb: reverb, users: users, key: $_key }
   end
 

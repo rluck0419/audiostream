@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :reverbs, through: :user_reverbs
 
   def appear(datetime = {})
-    CurrentUser.create!(user: self)
+    CurrentUser.find_or_create_by(user: self)
 
     self.appearing_on = datetime[:on] || Time.zone.now
     self.save
@@ -22,13 +22,12 @@ class User < ApplicationRecord
 
 
 
-    users = CurrentUser.all
-    instruments = users.map(&:user).flat_map(&:instruments)
+    users = CurrentUser.includes(user: :instruments).where.not(user_id: nil)
+    instruments = users.map{ |u| u.user }.flat_map(&:instruments)
 
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
 
-    all_notes = Note.where(instrument: instruments)
-    output_notes = []
+    all_notes = Note.where(instrument: instruments.uniq)
 
     output_notes = all_notes.map do |note|
       note if notes.include?(note.name)
@@ -50,13 +49,12 @@ class User < ApplicationRecord
     $_key = Key.find_by(name: next_key)
     $_scale = self.scales.sample
 
-    users = CurrentUser.all
-    instruments = users.map(&:user).flat_map(&:instruments)
+    users = CurrentUser.includes(user: :instruments).where.not(user_id: nil)
+    instruments = users.map{ |u| u.user }.flat_map(&:instruments)
 
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
 
-    all_notes = Note.where(instrument: instruments)
-    output_notes = []
+    all_notes = Note.where(instrument: instruments.uniq)
 
     output_notes = all_notes.map do |note|
       note if notes.include?(note.name)

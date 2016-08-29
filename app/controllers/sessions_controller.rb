@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
       redirect_to root_path
     else
       flash[:alert] = "Wrong email or password"
+      @user = user
       render :sign_in
     end
   end

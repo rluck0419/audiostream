@@ -13,12 +13,14 @@
       The basis for the app comes from... </p>
   </div>
   <div class="modal-footer">
-    <a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+    <%= link_to "Close", "javascript:void(0)", class: "modal-action modal-close waves-effect waves-green btn-flat" %>
   </div>
 </div>
 
 <footer>
-  <a class="modal-trigger bottom-right white-text" href="#modal1"><i class="material-icons">info</i></a>
+  <%= link_to "#modal1", class: "modal-trigger bottom-right white-text" do %>
+    <i class="material-icons">info</i>
+  <% end %>
 
   <div class="bottom-left white-text unselectable users">
     <% users.each do |user| %>

@@ -198,7 +198,7 @@ function initialize() {
     }
 }
 
-$(document).ready(function() {
+var onReady = function() {
     App.mousePos = { x: 0, y: 0 };
     $('select').material_select();
     var paused = false;
@@ -228,8 +228,19 @@ $(document).ready(function() {
 
     $('.modal-trigger').leanModal();
 
+    $(window).resize(function () {
+        App.canvas.width = document.body.clientWidth; //document.width is obsolete
+        App.canvas.height = document.body.clientHeight - 72; //document.height is obsolete
+        App.canvasW = App.canvas.width;
+        App.canvasH = App.canvas.height;
+    });
+
     // touch-based event handler for mobile - not quite working yet ******
     // App.canvas.addEventListener('touchstart', function (evt) {
     //   createSoundCircle(evt.pageX, evt.pageY);
     // }, false);
-});
+}
+
+$(document).ready(onReady);
+
+$(document).on("turbolinks:load", onReady);

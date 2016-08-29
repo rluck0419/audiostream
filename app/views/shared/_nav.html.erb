@@ -9,10 +9,94 @@
         <li><%= link_to "Profile", user_path(current_user) %></li>
         <li><%= link_to "Sign Out", sessions_sign_out_path, method: :delete %></li>
       <% else %>
-        <li><%= link_to "Sign In", sessions_sign_in_path, class: "signin" %></li>
-        <li><%= link_to "Sign Up", new_user_path %></li>
+        <li><%= link_to "Sign In", "#modal2", class: "signin modal-trigger" %></li>
+        <li><%= link_to "Sign Up", "#modal3", class: "modal-trigger" %></li>
       <% end %>
     </ul>
-    <%= yield :user_dropdown if current_user %>
   </div>
 </nav>
+
+<div id="modal2" class="modal">
+  <div class="modal-content black-text">
+    <h4 class="center">Sign In</h4>
+
+    <div class="row">
+      <div class="field_with_errors"><%= flash[:alert] %></div>
+      <%= form_tag '/sessions/authenticate', method: "POST" do %>
+        <div><%= label_tag :email %></div>
+        <div><%= email_field_tag :email %></div>
+
+        <div><%= label_tag :password %></div>
+        <div><%= password_field_tag :password %></div>
+
+        <div class='actions center'>
+          <%= submit_tag "Submit", class: "btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div id="modal3" class="modal modal-fixed-footer">
+  <%= form_for(user) do |f| %>
+    <div class="row">
+      <h4 class="center black-text">Sign Up</h4>
+      <div class="col s4">
+        <div>
+          <label for="email" class='black-text'>Email</label>
+          <%= f.text_field :email, placeholder: "bob@bmail.com", class: 'form-field black-text' %>
+        </div>
+
+        <div>
+          <label for="password" class='black-text'>Password</label>
+          <%= f.password_field :password, class: 'form-field black-text' %>
+        </div>
+
+        <div>
+          <label for="password_confirmation" class='black-text'>Confirm Password</label>
+          <%= f.password_field :password_confirmation, class: 'form-field black-text' %>
+        </div>
+      </div>
+
+      <div class="col s4">
+        <div class='black-text'>Favorite Instrument(s)</div>
+        <% Instrument.all.each do |i| %>
+          <div>
+            <%= check_box_tag("instrument[#{i.name}]", i.id, user.instruments.include?(i)) %>
+            <%= label_tag("instrument[#{i.name}]", i.name) %>
+          </div>
+        <% end %>
+
+        <div class='black-text'>Favorite Chord(s)</div>
+        <% Chord.all.each do |c| %>
+          <div>
+            <%= check_box_tag("chord[#{c.name}]", c.id, user.chords.include?(c)) %>
+            <%= label_tag("chord[#{c.name}]", c.name) %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col s4">
+        <div class='black-text'>Favorite Scale(s)</div>
+        <% Scale.all.each do |s| %>
+          <div>
+            <%= check_box_tag("scale[#{s.name}]", s.id, user.scales.include?(s)) %>
+            <%= label_tag("scale[#{s.name}]", s.name) %>
+          </div>
+        <% end %>
+
+        <div class='black-text'>Favorite Reverb(s)</div>
+        <% Reverb.all.each do |r| %>
+          <div>
+            <%= check_box_tag("reverb[#{r.name}]", r.id, user.reverbs.include?(r)) %>
+            <%= label_tag("reverb[#{r.name}]", r.name) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <%= f.submit class: "modal-action modal-close waves-effect waves-green btn-flat" %>
+    </div>
+  <% end %>
+</div>

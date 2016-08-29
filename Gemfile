@@ -66,3 +66,5 @@ gem 'sprockets-es6'
 gem 'rails-assets-fetch', source: 'https://rails-assets.org'
 # promise gem for js es6 promise
 gem 'rails-assets-es6-promise', source: 'https://rails-assets.org'
+
+gem 'rack-mini-profiler'

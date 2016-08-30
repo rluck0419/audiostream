@@ -1,17 +1,18 @@
 <h2 class="center"><%= form_title %></h2>
 
-<div>
-  <% if user.errors.any? %>
-    <% user.errors.full_messages.each do |msg| %>
-      <p> <%= msg %></p>
+<div class="row">
+  <div class="col s8 offset-s2">
+    <% if user.errors.any? %>
+      <% user.errors.full_messages.each do |msg| %>
+        <p> <%= msg %></p>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 
 <div class="row">
-  <div class"col s10">
-
-    <%= form_for(user) do |f| %>
+  <%= form_for(user) do |f| %>
+    <div class="col s8 offset-s2">
       <div class="center">
         <label for="email">Email</label>
         <%= f.text_field :email, placeholder: "bob@bmail.com", class: 'form-field' %>
@@ -26,7 +27,9 @@
         <label for="password_confirmation">Confirm Password</label>
         <%= f.password_field :password_confirmation, class: 'form-field' %>
       </div>
+    </div>
 
+    <div class="col s6">
       <div class="center">Favorite Instrument(s)</div>
       <% Instrument.all.each do |i| %>
         <div class="center">
@@ -42,7 +45,9 @@
           <%= label_tag("chord[#{c.name}]", c.name) %>
         </div>
       <% end %>
+    </div>
 
+    <div class="col s6">
       <div class="center">Favorite Scale(s)</div>
       <% Scale.all.each do |s| %>
         <div class="center">
@@ -58,10 +63,10 @@
           <%= label_tag("reverb[#{r.name}]", r.name) %>
         </div>
       <% end %>
+    </div>
 
-      <div class="center">
-        <%= f.submit class: "btn" %>
-      </div>
-    <% end %>
-  </div>
+    <div class="col s12 center">
+      <%= f.submit class: "btn" %>
+    </div>
+  <% end %>
 </div>

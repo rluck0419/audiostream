@@ -8,6 +8,7 @@ Given(/^I have an existing set of sound-based data$/) do
   Reverb.create!(name: "AirportTerminal", upload: File.open("#{Rails.root}/public/reverbs/AirportTerminal.wav"), upload_content_type: "audio/wav")
   Note.create!(name: "C", octave: 2, upload: File.open("#{Rails.root}/public/notes/#{instrument.name}/C2.mp3"), upload_content_type: "audio/mp3", instrument: instrument)
   Key.create!(name: "C", transposition: 0)
+  Chord.create!(name: 'triad', intervals: [0,2,4])
 end
 
 When(/^I visit homepage$/) do

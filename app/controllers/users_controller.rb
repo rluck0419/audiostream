@@ -20,25 +20,26 @@ class UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
-    if params[:instrument].values.empty?
+
+    if params.fetch(:instrument, {}).values.empty?
       UserInstrument.create!(user: user, instrument: Instrument.first)
     else
       user.instruments = params[:instrument].values.map{ |id| Instrument.find(id) }
     end
 
-    if params[:chord].values.empty?
+    if params.fetch(:chord, {}).values.empty?
       UserChord.create!(user: user, chord: Chord.first)
     else
       user.chords = params[:chord].values.map{ |id| Chord.find(id) }
     end
 
-    if params[:scale].values.empty?
+    if params.fetch(:scale, {}).values.empty?
       UserScale.create!(user: user, scale: Scale.first)
     else
       user.scales = params[:scale].values.map{ |id| Scale.find(id) }
     end
 
-    if params[:reverb].values.empty?
+    if params.fetch(:reverb, {}).values.empty?
       UserReverb.create!(user: user, reverb: Reverb.first)
     else
       user.reverbs = params[:reverb].values.map{ |id| Reverb.find(id) }
@@ -48,6 +49,7 @@ class UsersController < ApplicationController
       sign_in_new_user(user)
       redirect_to root_path
     else
+      @user = user
       render :new, locals: { user: user }
     end
   end
@@ -60,25 +62,25 @@ class UsersController < ApplicationController
     if User.find(params[:id])
       user = User.find(params[:id])
 
-      if params[:instrument].values.empty?
+      if params.fetch(:instrument, {}).values.empty?
         user.instruments.destroy_all
       else
         user.instruments = params[:instrument].values.map{ |id| Instrument.find(id) }
       end
 
-      if params[:chord].values.empty?
+      if params.fetch(:chord, {}).values.empty?
         user.chords.destroy_all
       else
         user.chords = params[:chord].values.map{ |id| Chord.find(id) }
       end
 
-      if params[:scale].values.empty?
+      if params.fetch(:scale, {}).values.empty?
         user.scales.destroy_all
       else
         user.scales = params[:scale].values.map{ |id| Scale.find(id) }
       end
 
-      if params[:reverb].values.empty?
+      if params.fetch(:reverb, {}).values.empty?
         user.reverbs.destroy_all
       else
         user.reverbs = params[:reverb].values.map{ |id| Reverb.find(id) }

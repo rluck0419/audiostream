@@ -63,7 +63,8 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
         last = i
-      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, data["user_instruments"][0].name))
+      instrument_name = data["user_instruments"][0].name
+      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, instrument_name))
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

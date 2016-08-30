@@ -2,47 +2,37 @@ class NotesController < ApplicationController
 
   def index
     if user_logged_in?
-      unless current_user.instruments.empty?
-        instrument = current_user.instruments.first
-      end
-      unless current_user.scales.empty?
-        $_scale = current_user.scales.first if $_scale.nil?
-      end
-      unless current_user.reverbs.empty?
-        reverb = current_user.reverbs.first
-      end
+      instrument = current_user.get_instrument
+      $_scale ||= current_user.get_scale
+      reverb = current_user.get_reverb
     end
 
-    unless instrument
-      instrument = Instrument.first
-    end
-    unless $_scale
-      $_scale = Scale.first
-    end
-    unless reverb
-      reverb = Reverb.first
-    end
+    instrument ||= Instrument.first
+    reverb     ||= Reverb.first
+    $_scale    ||= Scale.first
+    $_key      ||= Key.all.sample
 
     all_notes = Note.where(instrument: instrument)
-    notes = all_notes
-    $_key = Key.all.sample if $_key.nil?
-    output_notes = []
-
     users = CurrentUser.all.map(&:user)
-
     notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
 
-    all_notes.each_with_index do |note, index|
-      if notes.include?(note.name)
-        output_notes << note
-      end
-    end
+    output_notes = all_notes.map do |note|
+      note if notes.include?(note.name)
+    end.compact
+
     if current_user
       @user = current_user
     else
       @user = User.new
     end
-    render locals: { instrument: instrument, notes: output_notes, reverb: reverb, users: users, key: $_key }
+
+    render locals: {
+      instrument: instrument,
+      notes: output_notes,
+      reverb: reverb,
+      users: users,
+      key: $_key
+    }
   end
 
   def new

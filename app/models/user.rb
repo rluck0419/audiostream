@@ -39,7 +39,7 @@ class User < ApplicationRecord
     $_scale = self.scales.sample
 
     output_notes = set_notes($_key, $_scale)
-    
+
     ChangeKeyJob.perform_now(self, $_key, $_scale, output_notes)
   end
 
@@ -47,11 +47,23 @@ class User < ApplicationRecord
     super(include: :instruments, except: :password_digest)
   end
 
+  def get_instrument
+    instruments.first || Instrument.first
+  end
+
+  def get_scale
+    scales.first || Scale.first
+  end
+
+  def get_reverb
+    reverbs.first || Reverb.first
+  end
+
   def set_notes(key, scale)
     users = CurrentUser.includes(user: :instruments).where.not(user_id: nil)
     instruments = users.map{ |u| u.user }.flat_map(&:instruments)
 
-    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
+    notes = MusicTheory.notes_in_key_and_scale(key.name, scale)
 
     all_notes = Note.where(instrument: instruments.uniq)
 

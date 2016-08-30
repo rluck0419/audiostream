@@ -14,7 +14,7 @@ This app was created with the intent of providing user interaction and idle back
 
 Enjoy.
 
-Dependencies & Technologies:
+Dependencies & Technologies Used:
 
 * Ruby (2.3.0)
 
@@ -22,14 +22,10 @@ Dependencies & Technologies:
 
 * Postgresql (0.18)
 
-* Database creation
+* Amazon S3 - audio file storage
 
-* Database initialization
+* Web Audio API
 
-* How to run the test suite
+* WebSockets - Action Cable
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Tween.js - visual interface and animations

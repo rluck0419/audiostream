@@ -63,6 +63,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
         last = i
+      console.log(data["user_instruments"][0])
       instrument_name = data["user_instruments"][0]["name"]
       console.log(instrument_name)
       $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, instrument_name))

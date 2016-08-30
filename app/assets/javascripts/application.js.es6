@@ -228,7 +228,7 @@ var onReady = function() {
 
     $(window).resize(function () {
         App.canvas.width = document.body.clientWidth; //document.width is obsolete
-        App.canvas.height = document.body.clientHeight - 72; //document.height is obsolete
+        App.canvas.height = document.body.clientHeight - 100; //document.height is obsolete
         App.canvasW = App.canvas.width;
         App.canvasH = App.canvas.height;
     });

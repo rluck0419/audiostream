@@ -6,7 +6,7 @@
     <% end %>
     <ul id="nav-mobile" class="right">
       <% if user_logged_in? %>
-        <li><%= link_to "Profile", user_path(current_user) %></li>
+        <li><%= link_to "Profile", "#modal4", class: "modal-trigger" %></li>
         <li><%= link_to "Sign Out", sessions_sign_out_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "Sign In", "#modal2", class: "signin modal-trigger" %></li>
@@ -40,7 +40,7 @@
 <div id="modal3" class="modal modal-fixed-footer">
   <%= form_for(user) do |f| %>
     <div class="row">
-      <h4 class="center black-text">Sign Up</h4>
+      <h4 class="center black-text">User Profile</h4>
       <div class="col s4">
         <div>
           <label for="email" class='black-text'>Email</label>
@@ -99,4 +99,38 @@
       <%= f.submit class: "modal-action modal-close waves-effect waves-green btn-flat" %>
     </div>
   <% end %>
+</div>
+
+<div id="modal4" class="prefs modal modal-fixed-footer">
+    <div class="black-text">
+      Favorite Instrument(s):
+      <% user.instruments.each do |i| %>
+        <%= i.name.capitalize %>
+      <% end %>
+    </div>
+    <div class="black-text">
+      Favorite Chord(s):
+      <% user.chords.each do |c| %>
+        <%= c.name %>
+        <%= c.intervals.map(&:succ) %>
+      <% end %>
+    </div>
+    <div class="black-text">
+      Favorite Scale(s):
+      <% user.scales.each do |s| %>
+        <%= s.name.capitalize %>
+      <% end %>
+    </div>
+    <div class="black-text">
+      Favorite Reverb(s):
+      <% user.reverbs.each do |r| %>
+        <%= r.name %>
+      <% end %>
+    </div>
+
+    <div class='modal-footer left'>
+      <%= link_to "Close", "javascript:void(0)", class: "modal-action modal-close waves-effect waves-green btn-flat" %>
+      <%= link_to "Edit Preferences", "#modal3", class: "modal-action modal-trigger waves-effect waves-green btn-flat" %>
+    </div>
+  </div>
 </div>

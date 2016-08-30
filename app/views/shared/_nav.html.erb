@@ -39,7 +39,7 @@
 
 <div id="modal3" class="modal modal-fixed-footer">
   <%= form_for(user) do |f| %>
-    <div class="row">
+    <div class="row modal-content">
       <h4 class="center black-text">User Profile</h4>
       <div class="col s4">
         <div>
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div class="col s4">
+      <div class="col s3">
         <div class='black-text'>Favorite Instrument(s)</div>
         <% Instrument.all.each do |i| %>
           <div>
@@ -76,7 +76,7 @@
         <% end %>
       </div>
 
-      <div class="col s4">
+      <div class="col s3">
         <div class='black-text'>Favorite Scale(s)</div>
         <% Scale.all.each do |s| %>
           <div>
@@ -101,36 +101,40 @@
   <% end %>
 </div>
 
-<div id="modal4" class="prefs modal modal-fixed-footer">
-    <div class="black-text">
-      Favorite Instrument(s):
+<div id="modal4" class="prefs modal modal-fixed-footer row">
+  <div class="modal-content col s11 black-text">
+    <h4 class="center">Profile</h4>
+    <div class="col s6">Email:</div>
+    <div class="col s6"><%= user.email %></div>
+
+    <div class="col s6">Favorite Instruments:</div>
+    <div class="col s6">
       <% user.instruments.each do |i| %>
         <%= i.name.capitalize %>
       <% end %>
     </div>
-    <div class="black-text">
-      Favorite Chord(s):
+    <div class="col s6">Favorite Chords:</div>
+    <div class="col s6">
       <% user.chords.each do |c| %>
-        <%= c.name %>
-        <%= c.intervals.map(&:succ) %>
+        <%= c.name.capitalize %>
       <% end %>
     </div>
-    <div class="black-text">
-      Favorite Scale(s):
+    <div class="col s6">Favorite Scales:</div>
+    <div class="col s6">
       <% user.scales.each do |s| %>
         <%= s.name.capitalize %>
       <% end %>
     </div>
-    <div class="black-text">
-      Favorite Reverb(s):
+    <div class="col s6">Favorite Reverb(s):</div>
+    <div class="col s6">
       <% user.reverbs.each do |r| %>
         <%= r.name %>
       <% end %>
     </div>
 
-    <div class='modal-footer left'>
+    <div class='col s11 modal-footer'>
       <%= link_to "Close", "javascript:void(0)", class: "modal-action modal-close waves-effect waves-green btn-flat" %>
-      <%= link_to "Edit Preferences", "#modal3", class: "modal-action modal-trigger waves-effect waves-green btn-flat" %>
+      <%= link_to "Edit Profile", "#modal3", class: "modal-action modal-trigger waves-effect waves-green btn-flat" %>
     </div>
   </div>
 </div>

@@ -22,10 +22,12 @@ Dependencies & Technologies Used:
 
 * Postgresql (0.18)
 
-* Amazon S3 - audio file storage
+* Amazon S3 - Audio File Storage
 
 * Web Audio API
 
 * WebSockets - Action Cable
 
-* Tween.js - visual interface and animations
+* Tween.js for Visual Interface and Animations
+
+* Cucumber Testing

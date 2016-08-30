@@ -131,8 +131,6 @@ function createSoundCircle(x, y, instrument) {
 }
 
 function makeNote(sound, destination, y) {
-    console.log(sound.instrument);
-    console.log(sound.instrument.length > 0);
     if (sound.instrument.length > 0) {
       createCircle(App.x(), y, sound.instrument);
     } else {
@@ -240,7 +238,5 @@ var onReady = function() {
     //   createSoundCircle(evt.pageX, evt.pageY);
     // }, false);
 }
-
-$(document).ready(onReady);
 
 $(document).on("turbolinks:load", onReady);

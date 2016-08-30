@@ -66,5 +66,11 @@ gem 'sprockets-es6'
 gem 'rails-assets-fetch', source: 'https://rails-assets.org'
 # promise gem for js es6 promise
 gem 'rails-assets-es6-promise', source: 'https://rails-assets.org'
-
+# keeps track of sql queries
 gem 'rack-mini-profiler'
+# cucumber rails for testing
+group :test do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+end

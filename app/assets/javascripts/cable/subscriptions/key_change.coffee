@@ -1,7 +1,7 @@
 App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change" },
 
   connected: ->
-    setInterval @change.bind(@), 30000
+    setInterval @change.bind(@), 60000
 
   received: (data) ->
     setTimeout ( ->
@@ -45,7 +45,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
         App.loops.push(responses[i])
       console.log("key changed")
-    ), 30000
+    ), 60000
 
   change: ->
     console.log("changing key")

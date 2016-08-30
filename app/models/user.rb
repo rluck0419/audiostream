@@ -20,18 +20,7 @@ class User < ApplicationRecord
     $_key = Key.all.sample if $_key.nil?
     $_scale = self.scales.sample if $_scale.nil?
 
-
-
-    users = CurrentUser.includes(user: :instruments).where.not(user_id: nil)
-    instruments = users.map{ |u| u.user }.flat_map(&:instruments)
-
-    notes = MusicTheory.notes_in_key_and_scale($_key.name, $_scale)
-
-    all_notes = Note.where(instrument: instruments.uniq)
-
-    output_notes = all_notes.map do |note|
-      note if notes.include?(note.name)
-    end.compact
+    output_notes = set_notes($_key, $_scale)
 
     UserAppearJob.perform_now(self, self.appearing_on, output_notes)
   end
@@ -49,6 +38,16 @@ class User < ApplicationRecord
     $_key = Key.find_by(name: next_key)
     $_scale = self.scales.sample
 
+    output_notes = set_notes($_key, $_scale)
+    
+    ChangeKeyJob.perform_now(self, $_key, $_scale, output_notes)
+  end
+
+  def as_json(_ = nil)
+    super(include: :instruments, except: :password_digest)
+  end
+
+  def set_notes(key, scale)
     users = CurrentUser.includes(user: :instruments).where.not(user_id: nil)
     instruments = users.map{ |u| u.user }.flat_map(&:instruments)
 
@@ -59,11 +58,6 @@ class User < ApplicationRecord
     output_notes = all_notes.map do |note|
       note if notes.include?(note.name)
     end.compact
-
-    ChangeKeyJob.perform_now(self, $_key, $_scale, output_notes)
-  end
-
-  def as_json(_ = nil)
-    super(include: :instruments, except: :password_digest)
+    output_notes
   end
 end

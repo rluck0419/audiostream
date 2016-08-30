@@ -1,7 +1,9 @@
-# README
+# SoundHouse
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Procedurally generated ambient music
+
+This repo contains a procedurally-generated music app that allows for collaboration in creating ambient music.
+
 
 Things you may want to cover:
 

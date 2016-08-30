@@ -1,10 +1,11 @@
-eslint:
-  enabled: true
-  config:
-    extensions:
-    - .es6
-    - .js
-    - .jsx
+engines:
+  eslint:
+    enabled: true
+    config:
+      extensions:
+      - .es6
+      - .js
+      - .jsx
 
 ratings:
    paths:

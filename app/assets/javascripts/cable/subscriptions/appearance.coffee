@@ -64,6 +64,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         App.loops.push(responses[i])
         last = i
       instrument_name = data["user_instruments"][0]["name"]
+      console.log(instrument_name)
       $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, instrument_name))
 
   appear: ->

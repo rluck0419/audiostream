@@ -25,7 +25,7 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
     if data["type"] == "join"
       console.log("user's email: ", data["user_email"])
       if not $(class_name).length
-        $(".users").append("<div class='user" + data["user_id"] + "'>" + data["user_email"] + "</div>")
+        $(".users").append("<div class='user user" + data["user_id"] + "'>" + data["user_email"] + "</div>")
 
       for n in data["notes"]
         audioElement = document.createElement('audio')
@@ -64,7 +64,8 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
         App.loops.push(responses[i])
         last = i
       instrument_name = data["user_instruments"][0]["name"]
-      $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, instrument_name))
+      if App.user.id == data["user_id"]
+        $("#visuals").on("click", -> createSoundCircle(App.mousePos.x, App.mousePos.y, instrument_name))
 
   appear: ->
     # Calls `AppearanceChannel#appear(data)` on the server

@@ -55,7 +55,7 @@ function startVisuals() {
     App.canvas = document.getElementById("visuals");
     if (App.canvas !== null) {
         App.canvas.width = document.body.clientWidth; //document.width is obsolete
-        App.canvas.height = document.body.clientHeight - 72; //document.height is obsolete
+        App.canvas.height = document.body.clientHeight - 100; //document.height is obsolete
         App.canvasW = App.canvas.width;
         App.canvasH = App.canvas.height;
         App.stage = new createjs.Stage("visuals");
@@ -171,14 +171,15 @@ function initialize() {
             App.soundObjs[i].instrument = App.sounds[i].className;
             console.log(App.soundObjs[i].instrument);
 
-            var offset = 10000;
-            if (i % 2 != 0) {
-                if (i > 5) {
-                  offset += 5000
-                }
-                offset += 2000
-            }
-            App.soundObjs[i].delay = 5000 * i + offset;
+            // var offset = 10000;
+            // if (i % 2 != 0) {
+            //     if (i > 5) {
+            //       offset += 5000
+            //     }
+            //     offset += 2000
+            // }
+            // App.soundObjs[i].delay = 5000 * i + offset;
+            App.soundObjs[i].delay = function () { return (Math.random() * 10000 + Math.random() * 10000 + 10000) };
             console.log(App.soundObjs[i].delay);
         }
         for (var i = 0; i < App.soundObjs.length - 1; i++) {
@@ -187,7 +188,7 @@ function initialize() {
 
                 var response = setInterval(function (yCoord) {
                   makeNote(App.soundObjs[i], App.convolver, yCoord());
-                }.bind(this, yCoord), App.soundObjs[i].delay);
+                }.bind(this, yCoord), App.soundObjs[i].delay());
                 App.loops.push(response);
                 // console.log("loop pushed in!", response);
             })(i);

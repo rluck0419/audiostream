@@ -30,7 +30,7 @@
 
   <div class="bottom-left white-text unselectable users">
     <% users.each do |user| %>
-      <span class="user<%= user.id %>"><%= user.email %></span>
+      <div class="user user<%= user.id %>"><%= user.email %></div>
     <% end %>
   </div>
 </footer>

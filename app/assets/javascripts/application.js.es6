@@ -18,6 +18,13 @@
 //= require turbolinks
 //= require_tree .
 
+try {
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    window.audioContext = new window.AudioContext;
+} catch (e) {
+    console.error("No web audio API support.")
+}
+
 function shuffle(arr) {
     var n, elem, idx;
     for (idx = arr.length; idx; idx--) {
@@ -144,7 +151,7 @@ function initialize() {
     App.soundObjs = [];
     App.loops = [];
 
-    App.audioContext = new AudioContext();
+    App.audioContext = window.audioContext;
 
     App.gainNode = App.audioContext.createGain();
     App.arrayBuffer = new ArrayBuffer(16);

@@ -186,7 +186,7 @@ function initialize() {
             //     offset += 2000
             // }
             // App.soundObjs[i].delay = 5000 * i + offset;
-            App.soundObjs[i].delay = function () { return (Math.random() * 10000 + 500 * i + Math.random() * 5000 + 5000) };
+            App.soundObjs[i].delay = function () { return (Math.random() * 10000 + 2000 * i + Math.random() * 5000 + 5000) };
             console.log(App.soundObjs[i].delay);
         }
         for (var i = 0; i < App.soundObjs.length - 1; i++) {

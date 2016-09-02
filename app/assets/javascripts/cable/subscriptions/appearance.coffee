@@ -46,21 +46,21 @@ App.cable.subscriptions.create { channel: "AppearanceChannel", room: "appearance
 
       for sound, i in App.sounds
         App.soundObjs[i] = sound
-        offset = 10000;
-        if (i % 2 != 0)
-          offset += 5000
-          if (i > 5)
-            offset += 2000
+        # offset = 10000;
+        # if (i % 2 != 0)
+        #   offset += 5000
+        #   if (i > 5)
+        #     offset += 2000
 
         console.log(data["notes"][i].instrument.name)
         App.soundObjs[i].instrument = data["notes"][i].instrument.name
         App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
-        App.soundObjs[i].delay = 3000 * i + offset
+        App.soundObjs[i].delay = -> (Math.random() * 10000) + (2000 * i) + (Math.random() * 5000) + 5000
 
         playThing = (i, yCoord) -> makeNote(App.soundObjs[i], App.convolver, yCoord)
 
-        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay ) )(i)
+        responses[i] = ( foo = (i) -> setInterval( playThing.bind(@, i, yCoord(i)), App.soundObjs[i].delay() ) )(i)
         App.loops.push(responses[i])
         last = i
       instrument_name = data["user_instruments"][0]["name"]

@@ -40,7 +40,7 @@ App.cable.subscriptions.create { channel: "KeyChangeChannel", room: "key_change"
         App.soundObjs[i].user = data["user_email"]
         App.soundObjs[i].url = sound.src
         # App.soundObjs[i].delay = 3000 * i + offset
-        App.soundObjs[i].delay = -> (Math.random() * 10000) + (1000 * i) + (Math.random() * 5000) + 5000
+        App.soundObjs[i].delay = -> (Math.random() * 10000) + (2000 * i) + (Math.random() * 5000) + 5000
 
         playThing = (i, yCoord) -> makeNote(App.soundObjs[i], App.convolver, yCoord)
 

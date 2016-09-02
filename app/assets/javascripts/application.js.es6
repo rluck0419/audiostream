@@ -62,7 +62,7 @@ function startVisuals() {
     App.canvas = document.getElementById("visuals");
     if (App.canvas !== null) {
         App.canvas.width = document.body.clientWidth; //document.width is obsolete
-        App.canvas.height = document.body.clientHeight - 100; //document.height is obsolete
+        App.canvas.height = document.body.clientHeight - 90; //document.height is obsolete
         App.canvasW = App.canvas.width;
         App.canvasH = App.canvas.height;
         App.stage = new createjs.Stage("visuals");
@@ -186,7 +186,7 @@ function initialize() {
             //     offset += 2000
             // }
             // App.soundObjs[i].delay = 5000 * i + offset;
-            App.soundObjs[i].delay = function () { return (Math.random() * 10000 + Math.random() * 10000 + 10000) };
+            App.soundObjs[i].delay = function () { return (Math.random() * 10000 + 500 * i + Math.random() * 5000 + 5000) };
             console.log(App.soundObjs[i].delay);
         }
         for (var i = 0; i < App.soundObjs.length - 1; i++) {
@@ -236,7 +236,7 @@ var onReady = function() {
 
     $(window).resize(function () {
         App.canvas.width = document.body.clientWidth; //document.width is obsolete
-        App.canvas.height = document.body.clientHeight - 100; //document.height is obsolete
+        App.canvas.height = document.body.clientHeight - 90; //document.height is obsolete
         App.canvasW = App.canvas.width;
         App.canvasH = App.canvas.height;
     });
